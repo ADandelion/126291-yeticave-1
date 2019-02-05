@@ -44,7 +44,17 @@ $lots = [
         'image' => 'img/lot-6.jpg'
     ],
 ];
+
+function formatPrice($price){
+    $rubleStyle = " " . "<b class=\"rub\">р</b>";
+    $totalPrice = ceil($price);
+    if ($totalPrice  < 1000) {
+        return $totalPrice . $rubleStyle;
+    }
+    return number_format($totalPrice , 0, '.', ' ') . $rubleStyle;
+};
 ?>
+
 
 <!DOCTYPE html>
 <html lang="ru">
@@ -119,8 +129,8 @@ $lots = [
                     <h3 class="lot__title"><a class="text-link" href="pages/lot.html"><?=$lot['name']; ?></a></h3>
                     <div class="lot__state">
                         <div class="lot__rate">
-                            <span class="lot__amount"><?=$lot['price']; ?></span>
-                            <span class="lot__cost">цена<b class="rub">р</b></span>
+                            <span class="lot__amount"><?=formatPrice($lot['price']); ?></span>
+                            <span class="lot__cost"><?=formatPrice($lot['price']); ?></b></span>
                         </div>
                         <div class="lot__timer timer">
                             12:23
