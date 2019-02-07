@@ -14,7 +14,7 @@ $lots = [
         'image' => 'img/lot-1.jpg'
     ],
     [
-        'name' => 'DC <em> Ply Mens 2016/2017 Snowboard',
+        'name' => 'DC  Ply Mens 2016/2017 Snowboard',
         'cat' => 'Доски и лыжи',
         'price' => '159999',
         'image' => 'img/lot-2.jpg'
