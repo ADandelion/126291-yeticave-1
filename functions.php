@@ -47,3 +47,22 @@ function screening_txt($scr) {
     $text = strip_tags($scr);
     return $text;
 };
+
+/***
+ * Вычисляет время до истечения лота
+ * @param $date
+ * @return string
+ */
+function lot_expire()  {
+$currentDate = date_create();
+$midnightDate = date_create('tomorrow ');
+$interval= $midnightDate->getTimestamp()- $currentDate->getTimestamp();
+$h = floor($interval / 3600);
+$m = floor(($interval - $h * 3600) / 60);
+return $expireDate = "$h:$m";
+};
+
+
+
+
+
