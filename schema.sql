@@ -1,15 +1,15 @@
-  CREATE DATABASE  `126291-yeticave`
+  CREATE DATABASE  `126291-yeticave-1`
     DEFAULT CHARACTER SET utf8
     DEFAULT COLLATE utf8_general_ci;
 
-  USE `126291-yeticave`;
+  USE `126291-yeticave-1`;
 
   CREATE TABLE `lots` (
     `id` INT AUTO_INCREMENT PRIMARY KEY,
     `date_create` DATETIME DEFAULT CURRENT_TIMESTAMP,
     `name` VARCHAR(255) NOT NULL,
-    `description` VARCHAR(255) NOT NULL,
-    `image` VARCHAR(255) UNSIGNED NOT NULL,
+    `description` VARCHAR(255)UNSIGNED NOT NULL,
+    `image` VARCHAR(255) NOT NULL,
     `starting_price` INT,
     `date_expire` DATETIME,
     `bet_step` INT,
