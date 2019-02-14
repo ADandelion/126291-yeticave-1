@@ -53,13 +53,13 @@ function screening_txt($scr) {
  * @param $date
  * @return string
  */
-function lot_expire()  {
-$currentDate = date_create();
-$midnightDate = date_create('tomorrow ');
-$interval= $midnightDate->getTimestamp()- $currentDate->getTimestamp();
-$h = floor($interval / 3600);
-$m = floor(($interval - $h * 3600) / 60);
-return $expireDate = "$h:$m";
+function lot_expire ($date) {
+    $currentDate = date_create();
+    $lotDate = date_create($date);
+    $interval= $lotDate->getTimestamp()- $currentDate->getTimestamp();
+    $h = floor($interval / 3600);
+    $m = floor(($interval - $h * 3600) / 60);
+    return "$h:$m";
 };
 
 

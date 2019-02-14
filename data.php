@@ -1,46 +1,31 @@
 <?php
+
+
 $is_auth = rand(0, 1);
 $user_name = 'A. Благодетелев';
 $title = 'Главная страница';
+date_default_timezone_set("Europe/Chisinau");
+$categories = [];
+$sql_get_categories = 'SELECT * FROM categories;';
+$cat_result = mysqli_query($link, $sql_get_categories);
 
-$categories = ["Доски и лыжи", "Крепления", "Ботинки",
-    "Одежда", "Инструменты", "Разное"];
+if($cat_result) {
+    $categories = mysqli_fetch_all($cat_result, MYSQLI_ASSOC);
+}
 
-$lots = [
-    [
-        'name' => '2014 Rossignol District Snowboard',
-        'cat' => 'Доски и лыжи',
-        'price' => '10999',
-        'image' => 'img/lot-1.jpg'
-    ],
-    [
-        'name' => 'DC  Ply Mens 2016/2017 Snowboard',
-        'cat' => 'Доски и лыжи',
-        'price' => '159999',
-        'image' => 'img/lot-2.jpg'
-    ],
-    [
-        'name' => 'Крепления Union Contact Pro 2015 года размер L/XL',
-        'cat' => 'Крепления',
-        'price' => '8000',
-        'image' => 'img/lot-3.jpg'
-    ],
-    [
-        'name' => 'Ботинки для сноуборда DC Mutiny Charocal',
-        'cat' => 'Ботинки',
-        'price' => '10999',
-        'image' => 'img/lot-4.jpg'
-    ],
-    [
-        'name' => 'Куртка для сноуборда DC Mutiny Charocal',
-        'cat' => 'Одежда',
-        'price' => '7500',
-        'image' => 'img/lot-5.jpg'
-    ],
-    [
-        'name' => 'Маска Oakley Canopy',
-        'cat' => 'Разное',
-        'price' => '5400',
-        'image' => 'img/lot-6.jpg'
-    ],
-];
+$lots = [];
+$sql_get_lots = 'SELECT  lots.name, lots.date_expire, lots.starting_price, lots.image, IFNULL(max(bets.price), lots.starting_price) AS price, categories.name AS cat_name
+FROM lots
+       JOIN categories on lots.category_id = categories.id
+       LEFT JOIN bets on lots.id = bets.lot_id
+WHERE lots.winner_id IS NULL
+  AND lots.date_expire > NOW()
+GROUP BY lots.id
+ORDER BY bets.add_date desc,
+         lots.date_create desc;';
+
+$lots_result = mysqli_query($link, $sql_get_lots);
+if($lots_result) {
+    $lots = mysqli_fetch_all($lots_result, MYSQLI_ASSOC);
+}
+
