@@ -64,7 +64,7 @@ WHERE lots.winner_id IS NULL
   AND lots.date_expire > NOW()
 GROUP BY lots.id
 ORDER BY bets.add_date desc,
-         lots.date_create desc
+         lots.date_create desc;
 
 
 -- 3. показать лот по его id. Получите также название категории, к которой принадлежит лот
