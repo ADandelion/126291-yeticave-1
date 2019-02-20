@@ -108,16 +108,17 @@ function all_categories ($link) {
  *
  * @param $link
  * @param $id
+ * @return array | null
  */
 function get_one_lot ($link, $id) {
 
-    $sql = "SELECT lots.id, lots.date_expire, lots.name, lots.description,  lots.starting_price, lots.image, IFNULL(max(bets.price), lots.starting_price) AS price, categories.name AS cat_name
+    $sql = "SELECT lots.id, lots.bet_step, lots.date_expire, lots.name, lots.description,  lots.starting_price, lots.image, IFNULL(max(bets.price), lots.starting_price) AS price, categories.name AS cat_name
                 FROM lots
                 JOIN categories on lots.category_id = categories.id
-                LEFT JOIN bets on lots.id = '$id' = bets.lot_id
+                LEFT JOIN bets on lots.id = bets.lot_id
                 WHERE lots.winner_id IS NULL
                 AND lots.date_expire > NOW()
-                AND lots.id 
+                AND lots.id = '$id'
                 GROUP BY lots.id
                 ORDER BY bets.add_date desc,
                          lots.date_create desc";

@@ -2,7 +2,7 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <title>DC Ply Mens 2016/2017 Snowboard</title>
+    <title><?=$lot['name']; ?></title>
     <link href="../css/normalize.min.css" rel="stylesheet">
     <link href="../css/style.css" rel="stylesheet">
 </head>
@@ -71,17 +71,17 @@
                         </div>
                         <div class="lot-item__cost-state">
                             <div class="lot-item__rate">
-                                <span class="lot-item__amount">Текущая цена</span>
-                                <span class="lot-item__cost"><?=$lot['starting_price']; ?></span>
+                                <span class="lot-item__amount"></span>
+                                <span class="lot-item__cost"><?=formatPrice($lot['price']); ?></span>
                             </div>
                             <div class="lot-item__min-cost">
-                                Мин. ставка <span>12 000 р</span>
+                                Мин. ставка <span><?=formatPrice($lot['price'] + $lot['bet_step']); ?></span>
                             </div>
                         </div>
                         <form class="lot-item__form" action="https://echo.htmlacademy.ru" method="post">
                             <p class="lot-item__form-item form__item form__item--invalid">
                                 <label for="cost">Ваша ставка</label>
-                                <input id="cost" type="text" name="cost" placeholder="12 000">
+                                <input id="cost" type="text" name="cost" placeholder="<?=$lot['price'] + $lot['bet_step']; ?>">
                                 <span class="form__error">Введите наименование лота</span>
                             </p>
                             <button type="submit" class="button">Сделать ставку</button>
