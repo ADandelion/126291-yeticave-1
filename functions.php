@@ -63,6 +63,68 @@ function lot_expire ($date) {
 };
 
 
+/***
+ * Самые новые открытые лоты
+ * @param $link
+ * @return array|null
+ */
+function all_lots ($link) {
+    $lots = [];
+    $sql = 'SELECT lots.id, lots.date_expire, lots.name, lots.category_id, lots.starting_price, lots.image, IFNULL(max(bets.price), lots.starting_price) AS price, categories.name AS cat_name
+                FROM lots
+                JOIN categories on lots.category_id = categories.id
+                LEFT JOIN bets on lots.id = bets.lot_id
+                WHERE lots.winner_id IS NULL
+                AND lots.date_expire > NOW()
+                GROUP BY lots.id
+                ORDER BY bets.add_date desc,
+                         lots.date_create desc';
+    if($res = mysqli_query($link, $sql)) {
+        $lots = mysqli_fetch_all($res, MYSQLI_ASSOC);
+    }
+    return $lots;
 
 
+};
 
+
+/***
+ * @param $link
+ * @return array|null
+ */
+
+function all_categories ($link) {
+    $categories = [];
+    $sql_get_categories = 'SELECT * FROM categories;';
+    $cat_result = mysqli_query($link, $sql_get_categories);
+
+    if($cat_result) {
+        $categories = mysqli_fetch_all($cat_result, MYSQLI_ASSOC);
+    }
+    return $categories;
+};
+
+/***
+ *
+ * @param $link
+ * @param $id
+ * @return array | null
+ */
+function get_one_lot ($link, $id) {
+
+    $sql = "SELECT lots.id, lots.bet_step, lots.date_expire, lots.name, lots.description,  lots.starting_price, lots.image, IFNULL(max(bets.price), lots.starting_price) AS price, categories.name AS cat_name
+                FROM lots
+                JOIN categories on lots.category_id = categories.id
+                LEFT JOIN bets on lots.id = bets.lot_id
+                WHERE lots.winner_id IS NULL
+                AND lots.date_expire > NOW()
+                AND lots.id = '$id'
+                GROUP BY lots.id
+                ORDER BY bets.add_date desc,
+                         lots.date_create desc";
+
+    $result  = mysqli_query($link, $sql);
+    $lot = mysqli_fetch_assoc($result);
+
+    return $lot;
+};

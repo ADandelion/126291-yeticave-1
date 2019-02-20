@@ -4,15 +4,14 @@ require_once 'data.php';
 require_once 'functions.php';
 
 
+$content = include_template('main.php', ['categories' => all_categories ($link), 'lots' => all_lots($link)]);
 
-    $main_content = include_template('main.php', ['lots' => $lots, 'categories' => $categories ]);
+$layout_content = include_template('layout.php', [
+    'is_auth' => $is_auth,
+    'title' => $title,
+    'user_name' => $user_name,
+    'content' => $content,
+    'categories' => all_categories ($link)
+]);
 
-    $layout_content = include_template('layout.php', [
-        'is_auth' => $is_auth,
-        'user_name' => $user_name,
-        'title' => $title,
-        'categories' => $categories,
-        'main_content' => $main_content
-    ]);
-
-print ($layout_content);
+print($layout_content);

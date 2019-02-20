@@ -20,8 +20,8 @@
                     <img src="<?=$lot['image']; ?>" width="350" height="260" alt="">
                 </div>
                 <div class="lot__info">
-                    <span class="lot__category"><?=$lot['category_id']; ?></span>
-                    <h3 class="lot__title"><a class="text-link" href="pages/lot.html"><?=screening_txt($lot['name']); ?></a></h3>
+                    <span class="lot__category"><?=$lot['cat_name']; ?></span>
+                    <h3 class="lot__title"><a class="text-link" href="lot.php?id=<?=$lot['id']; ?>"><?=screening_txt($lot['name']); ?></a></h3>
                     <div class="lot__state">
                         <div class="lot__rate">
                             <span class="lot__amount"><?=formatPrice($lot['price']); ?></span>
