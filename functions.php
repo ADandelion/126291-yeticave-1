@@ -95,10 +95,9 @@ function all_lots ($link) {
 
 function all_categories ($link) {
     $categories = [];
-    $sql_get_categories = 'SELECT * FROM categories;';
-    $cat_result = mysqli_query($link, $sql_get_categories);
+    $sql = 'SELECT * FROM categories;';
 
-    if($cat_result) {
+    if($cat_result = mysqli_query($link, $sql)) {
         $categories = mysqli_fetch_all($cat_result, MYSQLI_ASSOC);
     }
     return $categories;
