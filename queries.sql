@@ -87,6 +87,6 @@ WHERE lot_id = 1
 ORDER BY add_date DESC;
 
 
-select * from lots;
+select * from `lots`;
 
 

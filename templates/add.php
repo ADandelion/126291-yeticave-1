@@ -13,14 +13,14 @@
     <header class="main-header">
         <div class="main-header__container container">
             <h1 class="visually-hidden">YetiCave</h1>
-            <a class="main-header__logo" href="index.html">
+            <a class="main-header__logo" href="/">
                 <img src="img/logo.svg" width="160" height="39" alt="Логотип компании YetiCave">
             </a>
             <form class="main-header__search" method="get" action="https://echo.htmlacademy.ru">
                 <input type="search" name="search" placeholder="Поиск лота">
                 <input class="main-header__search-btn" type="submit" name="find" value="Найти">
             </form>
-            <a class="main-header__add-lot button" href="add-lot.html">Добавить лот</a>
+            <a class="main-header__add-lot button" href="add.php">Добавить лот</a>
             <nav class="user-menu">
 
                 <?php if ($is_auth === 1): ?>
@@ -56,12 +56,12 @@
             </ul>
         </nav>
 
-        <form class="form form--add-lot container" enctype="multipart/form-data" action="add.php" method="post"> <!-- form--invalid -->
+        <form class="form form--add-lot container" enctype="multipart/form-data" action="add.php" method="post" name="addLot"> <!-- form--invalid -->
             <h2>Добавление лота</h2>
             <div class="form__container-two">
                 <div class="form__item "> <!-- form__item--invalid -->
                     <label for="lot-name">Наименование</label>
-                    <input id="lot-name" type="text" name="cat_name" placeholder="Введите наименование лота" required>
+                    <input id="lot-name" type="text" name="name" placeholder="Введите наименование лота" required>
                     <span class="form__error">Введите наименование лота</span>
                 </div>
                 <div class="form__item ">

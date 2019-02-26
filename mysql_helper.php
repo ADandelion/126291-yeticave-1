@@ -27,6 +27,8 @@ function db_get_prepare_stmt($link, $sql, $data = []) {
             }
             else if (is_double($value)) {
                 $type = 'd';
+            } else {
+                $type = 's';
             }
 
             if ($type) {
