@@ -133,23 +133,29 @@ function get_one_lot ($link, $id) {
     mysqli_stmt_execute($stmt);
     $result = mysqli_stmt_get_result($stmt);
 
-    return mysqli_fetch_assoc($result);;
+    return mysqli_fetch_assoc($result);
 };
 
 
 function save_lot($link, $fields_array = []) {
-
     $sql = "
             INSERT INTO `lots`
             (date_create, name, description, image, starting_price, date_expire, bet_step, user_id, category_id )
             VALUES
             (NOW(), ?, ?, ?, ?, ?, ?, 1, ?);
 
-";
+            ";
 
-    $stmt = db_get_prepare_stmt($link, $sql, $fields_array);
+    $stmt = db_get_prepare_stmt($link, $sql,
+        [
+            $fields_array['name' ],$fields_array['description'],
+            $fields_array['image'], $fields_array['starting_price'],
+            $fields_array['date_expire'], $fields_array['bet_step'],
+            $fields_array['category' ]
+        ]);
+
     mysqli_stmt_execute($stmt);
-    $result = mysqli_stmt_get_result($stmt);
 
+    $result = mysqli_stmt_get_result($stmt);
     return mysqli_fetch_assoc($result);
 };

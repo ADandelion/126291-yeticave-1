@@ -112,7 +112,7 @@ s
                 </div>
                 <div class="form__item">
                     <label for="lot-date">Дата окончания торгов</label>
-                    <input class="form__input-date" id="date_expire" type="date" name="lot-date" required>
+                    <input class="form__input-date" id="date_expire" type="date" name="date_expire" required>
                     <span class="form__error">Введите дату завершения торгов</span>
                 </div>
             </div>
