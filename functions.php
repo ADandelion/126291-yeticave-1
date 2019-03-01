@@ -1,4 +1,5 @@
 <?php
+require_once 'mysql_helper.php';
 /***
  * форматирования суммы и добавления к ней знака рубля
  * @param $price
@@ -70,21 +71,24 @@ function lot_expire ($date) {
  */
 function all_lots ($link) {
     $lots = [];
-    $sql = 'SELECT lots.id, lots.date_expire, lots.name, lots.category_id, lots.starting_price, lots.image, IFNULL(max(bets.price), lots.starting_price) AS price, categories.name AS cat_name
-                FROM lots
-                JOIN categories on lots.category_id = categories.id
-                LEFT JOIN bets on lots.id = bets.lot_id
-                WHERE lots.winner_id IS NULL
-                AND lots.date_expire > NOW()
-                GROUP BY lots.id
-                ORDER BY bets.add_date desc,
-                         lots.date_create desc';
-    if($res = mysqli_query($link, $sql)) {
+    $sql = '
+        SELECT 
+              lots.*, 
+              IFNULL(max(bets.price), lots.starting_price) AS price, categories.name AS cat_name
+        FROM lots
+        JOIN categories on lots.category_id = categories.id
+        LEFT JOIN bets on lots.id = bets.lot_id
+        WHERE lots.winner_id IS NULL
+            AND lots.date_expire > NOW()
+        GROUP BY lots.id, bets.add_date desc, lots.date_create desc
+        ORDER BY bets.add_date desc, lots.date_create desc
+';
+
+    $res = mysqli_query($link, $sql);
+    if($res !== false) {
         $lots = mysqli_fetch_all($res, MYSQLI_ASSOC);
     }
     return $lots;
-
-
 };
 
 
@@ -95,10 +99,10 @@ function all_lots ($link) {
 
 function all_categories ($link) {
     $categories = [];
-    $sql_get_categories = 'SELECT * FROM categories;';
-    $cat_result = mysqli_query($link, $sql_get_categories);
+    $sql = 'SELECT * FROM categories;';
 
-    if($cat_result) {
+    $cat_result = mysqli_query($link, $sql);
+    if($cat_result !== false) {
         $categories = mysqli_fetch_all($cat_result, MYSQLI_ASSOC);
     }
     return $categories;
@@ -112,19 +116,44 @@ function all_categories ($link) {
  */
 function get_one_lot ($link, $id) {
 
-    $sql = "SELECT lots.id, lots.bet_step, lots.date_expire, lots.name, lots.description,  lots.starting_price, lots.image, IFNULL(max(bets.price), lots.starting_price) AS price, categories.name AS cat_name
-                FROM lots
-                JOIN categories on lots.category_id = categories.id
-                LEFT JOIN bets on lots.id = bets.lot_id
-                WHERE lots.winner_id IS NULL
-                AND lots.date_expire > NOW()
-                AND lots.id = '$id'
-                GROUP BY lots.id
-                ORDER BY bets.add_date desc,
-                         lots.date_create desc";
+    $sql = "
+      SELECT 
+             lots.*, 
+             IFNULL(max(bets.price), lots.starting_price) AS price, categories.name AS cat_name
+      FROM lots
+      JOIN categories on lots.category_id = categories.id
+      LEFT JOIN bets on lots.id = bets.lot_id
+      WHERE lots.winner_id IS NULL
+            AND lots.date_expire > NOW()
+            AND lots.id = ?
+      GROUP BY lots.id
+";
 
-    $result  = mysqli_query($link, $sql);
-    $lot = mysqli_fetch_assoc($result);
+    $stmt = db_get_prepare_stmt($link, $sql, [$id]);
+    mysqli_stmt_execute($stmt);
+    $result = mysqli_stmt_get_result($stmt);
 
-    return $lot;
+    return mysqli_fetch_assoc($result);
+};
+
+
+function save_lot($link, $fields_array = []) {
+    $sql = "
+            INSERT INTO `lots`
+            (date_create, name, description, image, starting_price, date_expire, bet_step, user_id, category_id )
+            VALUES
+            (NOW(), ?, ?, ?, ?, ?, ?, 1, ?);
+
+            ";
+
+    $stmt = db_get_prepare_stmt($link, $sql,
+        [
+            $fields_array['name'],$fields_array['description'],
+            $fields_array['image'], $fields_array['starting_price'],
+            $fields_array['date_expire'], $fields_array['bet_step'],
+            $fields_array['category']
+        ]);
+
+    mysqli_stmt_execute($stmt);
+    return mysqli_insert_id($link);
 };

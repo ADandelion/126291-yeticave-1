@@ -87,6 +87,7 @@ WHERE lot_id = 1
 ORDER BY add_date DESC;
 
 
-select * from lots;
+select * from `lots`;
 
+DELETE from `lots` WHERE id BETWEEN 44  AND 64
 

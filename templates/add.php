@@ -2,9 +2,9 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <title><?=$lot['name']; ?></title>
-    <link href="../css/normalize.min.css" rel="stylesheet">
-    <link href="../css/style.css" rel="stylesheet">
+    <title>Добавление лота</title>
+    <link href="css/normalize.min.css" rel="stylesheet">
+    <link href="css/style.css" rel="stylesheet">
 </head>
 <body>
 
@@ -16,11 +16,11 @@
             <a class="main-header__logo" href="/">
                 <img src="img/logo.svg" width="160" height="39" alt="Логотип компании YetiCave">
             </a>
-            <form class="main-header__search" method="get" action="https://echo.htmlacademy.ru">
+            <form class="main-header__search " method="get" action="https://echo.htmlacademy.ru">
                 <input type="search" name="search" placeholder="Поиск лота">
                 <input class="main-header__search-btn" type="submit" name="find" value="Найти">
             </form>
-            <a class="main-header__add-lot button" href="add-lot.html">Добавить лот</a>
+            <a class="main-header__add-lot button" href="add.php">Добавить лот</a>
             <nav class="user-menu">
 
                 <?php if ($is_auth === 1): ?>
@@ -55,97 +55,82 @@
 
             </ul>
         </nav>
-        <section class="lot-item container">
-            <h2><?=$lot['name']; ?></h2>
-            <div class="lot-item__content">
-                <div class="lot-item__left">
-                    <div class="lot-item__image">
-                        <img src="<?=$lot['image']; ?>" width="730" height="548" alt="Сноуборд">
-                    </div>
-                    <p class="lot-item__category">Категория: <span><?=$lot['cat_name']; ?></span></p>
-                    <p class="lot-item__description"><?=$lot['description']; ?></p>
+
+        <form class="form form--add-lot container <?= count($errors) > 0 ? 'form--invalid' : '' ?>" enctype="multipart/form-data" action="add.php" method="post" name="addLot"> <!-- form--invalid -->
+            <h2>Добавление лота</h2>
+            <div class="form__container-two">
+                <div class="form__item  <?= isset($errors['name']) ? 'form__item--invalid' : '' ?>"> <!--  -->
+                    <label for="lot-name">Наименование</label>
+                    <input
+                            id="lot-name"
+                            type="text"
+                            name="name"
+                            placeholder="Введите наименование лота"
+                            value="<?=isset($_POST['name'])  ? screening_txt($_POST['name']) : ''?>"
+
+                    >
+                    <span class="form__error ">Введите наименование лота</span>
                 </div>
-                <div class="lot-item__right">
-                    <div class="lot-item__state">
-                        <div class="lot-item__timer timer">
-                            <?=lot_expire($lot['date_expire']); ?>
-                        </div>
-                        <div class="lot-item__cost-state">
-                            <div class="lot-item__rate">
-                                <span class="lot-item__amount"></span>
-                                <span class="lot-item__cost"><?=formatPrice($lot['price']); ?></span>
-                            </div>
-                            <div class="lot-item__min-cost">
-                                Мин. ставка <span><?=formatPrice($lot['price'] + $lot['bet_step']); ?></span>
-                            </div>
-                        </div>
-                        <form class="lot-item__form" action="https://echo.htmlacademy.ru" method="post">
-                            <p class="lot-item__form-item form__item form__item--invalid">
-                                <label for="cost">Ваша ставка</label>
-                                <input id="cost" type="text" name="cost" placeholder="<?=$lot['price'] + $lot['bet_step']; ?>">
-                                <span class="form__error">Введите наименование лота</span>
-                            </p>
-                            <button type="submit" class="button">Сделать ставку</button>
-                        </form>
-                    </div>
-                    <div class="history">
-                        <h3>История ставок (<span>10</span>)</h3>
-                        <table class="history__list">
-                            <tr class="history__item">
-                                <td class="history__name">Иван</td>
-                                <td class="history__price">10 999 р</td>
-                                <td class="history__time">5 минут назад</td>
-                            </tr>
-                            <tr class="history__item">
-                                <td class="history__name">Константин</td>
-                                <td class="history__price">10 999 р</td>
-                                <td class="history__time">20 минут назад</td>
-                            </tr>
-                            <tr class="history__item">
-                                <td class="history__name">Евгений</td>
-                                <td class="history__price">10 999 р</td>
-                                <td class="history__time">Час назад</td>
-                            </tr>
-                            <tr class="history__item">
-                                <td class="history__name">Игорь</td>
-                                <td class="history__price">10 999 р</td>
-                                <td class="history__time">19.03.17 в 08:21</td>
-                            </tr>
-                            <tr class="history__item">
-                                <td class="history__name">Енакентий</td>
-                                <td class="history__price">10 999 р</td>
-                                <td class="history__time">19.03.17 в 13:20</td>
-                            </tr>
-                            <tr class="history__item">
-                                <td class="history__name">Семён</td>
-                                <td class="history__price">10 999 р</td>
-                                <td class="history__time">19.03.17 в 12:20</td>
-                            </tr>
-                            <tr class="history__item">
-                                <td class="history__name">Илья</td>
-                                <td class="history__price">10 999 р</td>
-                                <td class="history__time">19.03.17 в 10:20</td>
-                            </tr>
-                            <tr class="history__item">
-                                <td class="history__name">Енакентий</td>
-                                <td class="history__price">10 999 р</td>
-                                <td class="history__time">19.03.17 в 13:20</td>
-                            </tr>
-                            <tr class="history__item">
-                                <td class="history__name">Семён</td>
-                                <td class="history__price">10 999 р</td>
-                                <td class="history__time">19.03.17 в 12:20</td>
-                            </tr>
-                            <tr class="history__item">
-                                <td class="history__name">Илья</td>
-                                <td class="history__price">10 999 р</td>
-                                <td class="history__time">19.03.17 в 10:20</td>
-                            </tr>
-                        </table>
-                    </div>
+                <div class="form__item <?= isset($errors['category']) ? 'form__item--invalid' : '' ?>">
+                    <label for="category">Категория</label>
+                    <select id="category" name="category" required>
+                        <option value="0" <?=!isset($_POST['category']) || intval($_POST['category']) === 0 ? 'selected' : ''?> disabled>Выберите категорию</option>
+
+                        <?php foreach ($categories as $index): ?>
+
+                            <option
+                                    value="<?=$index['id']; ?>"> <?=$index['name']; ?>
+                                    <?=isset($_POST['category']) && intval($_POST['category']) === $index['id'] ? 'selected' : ''?>
+                            </option>
+
+                        <?php endforeach; ?>
+s
+                    </select>
+                    <span class="form__error ">Выберите категорию</span>
                 </div>
             </div>
-        </section>
+            <div class="form__item form__item--wide <?= isset($errors['description']) ? 'form__item--invalid' : '' ?>">
+                <label for="message">Описание</label>
+                <textarea id="message" name="description" placeholder="Напишите описание лота"><?=isset($_POST['description'])  ? screening_txt($_POST['description']) : ''?></textarea>
+                <span class="form__error">Напишите описание лота</span>
+            </div>
+            <div class="form__item form__item--file <?=isset($errors['image']) ? 'form__item--invalid' : '' ?>"> <!-- form__item--uploaded -->
+                <label>Изображение</label>
+                <div class="preview">
+                    <button class="preview__remove" type="button">x</button>
+                    <div class="preview__img">
+                        <img src="" width="113" height="113" alt="Изображение лота">
+                    </div>
+                </div>
+                <div class="form__input-file ">
+                    <input class="visually-hidden" type="file" id="photo2" name="image" >
+                    <label for="photo2">
+                        <span>+ Добавить</span>
+                    </label>
+                </div>
+                <span class="form__error"><?=isset($errors['image'])  ? $errors['image'] : ''?></span>
+            </div>
+            <div class="form__container-three">
+                <div class="form__item form__item--small <?= isset($errors['starting_price']) ? 'form__item--invalid' : '' ?>">
+                    <label for="lot-rate">Начальная цена</label>
+                    <input id="lot-rate" type="number" name="starting_price" placeholder="0" value="<?=isset($_POST['starting_price'])  ? screening_txt($_POST['starting_price']) : ''?>">
+                    <span class="form__error">Введите начальную цену</span>
+                </div>
+                <div class="form__item form__item--small <?= isset($errors['bet_step']) ? 'form__item--invalid' : '' ?>">
+                    <label for="lot-step">Шаг ставки</label>
+                    <input id="lot-step" type="number" name="bet_step" placeholder="0" value="<?=isset($_POST['bet_step']) ? intval($_POST['bet_step']) : ''?>">
+                    <span class="form__error"><?=isset($errors['bet_step'])  ? $errors['bet_step'] : ''?></span>
+                </div>
+                <div class="form__item <?= isset($errors['date_expire']) ? 'form__item--invalid' : '' ?>">
+                    <label for="lot-date">Дата окончания торгов</label>
+                    <input class="form__input-date" id="date_expire" type="date" name="date_expire" value="<?=isset($_POST['date_expire']) ? $_POST['date_expire'] : ''?>">
+                    <span class="form__error"><?=isset($errors['date_expire'])  ? $errors['date_expire'] : ''?></span>
+                </div>
+            </div>
+            <span class="form__error form__error--bottom">Пожалуйста, исправьте ошибки в форме.</span>
+            <button type="submit" class="button" name="send">Добавить лот</button>
+        </form>
+
     </main>
 
 </div>
@@ -206,3 +191,6 @@
 
 </body>
 </html>
+
+
+
