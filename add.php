@@ -55,7 +55,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         if ($lot_id > 0) {
             header("Location: /lot.php?id=" . $lot_id);
         }
-}/*else {var_dump($errors); die;}*/
+    }
 }
 
 $layout_content = include_template('add.php', [

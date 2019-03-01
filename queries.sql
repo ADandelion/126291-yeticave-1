@@ -89,5 +89,5 @@ ORDER BY add_date DESC;
 
 select * from `lots`;
 
-DELETE from `lots` WHERE id BETWEEN 40  AND 43
+DELETE from `lots` WHERE id BETWEEN 44  AND 64
 

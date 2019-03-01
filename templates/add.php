@@ -94,7 +94,7 @@ s
                 <textarea id="message" name="description" placeholder="Напишите описание лота"><?=isset($_POST['description'])  ? screening_txt($_POST['description']) : ''?></textarea>
                 <span class="form__error">Напишите описание лота</span>
             </div>
-            <div class="form__item form__item--file <?=isset($errors['image']) ? 'form__item--uploaded' : '' ?>"> <!-- form__item--uploaded -->
+            <div class="form__item form__item--file <?=isset($errors['image']) ? 'form__item--invalid' : '' ?>"> <!-- form__item--uploaded -->
                 <label>Изображение</label>
                 <div class="preview">
                     <button class="preview__remove" type="button">x</button>
@@ -109,7 +109,7 @@ s
                     </label>
                 </div>
                 <span class="form__error"><?=isset($errors['image'])  ? $errors['image'] : ''?></span>
-</div>
+            </div>
             <div class="form__container-three">
                 <div class="form__item form__item--small <?= isset($errors['starting_price']) ? 'form__item--invalid' : '' ?>">
                     <label for="lot-rate">Начальная цена</label>
@@ -119,12 +119,12 @@ s
                 <div class="form__item form__item--small <?= isset($errors['bet_step']) ? 'form__item--invalid' : '' ?>">
                     <label for="lot-step">Шаг ставки</label>
                     <input id="lot-step" type="number" name="bet_step" placeholder="0" value="<?=isset($_POST['bet_step']) ? intval($_POST['bet_step']) : ''?>">
-                    <span class="form__error">Введите шаг ставки</span>
+                    <span class="form__error"><?=isset($errors['bet_step'])  ? $errors['bet_step'] : ''?></span>
                 </div>
                 <div class="form__item <?= isset($errors['date_expire']) ? 'form__item--invalid' : '' ?>">
                     <label for="lot-date">Дата окончания торгов</label>
                     <input class="form__input-date" id="date_expire" type="date" name="date_expire" value="<?=isset($_POST['date_expire']) ? $_POST['date_expire'] : ''?>">
-                    <span class="form__error">Введите дату завершения торгов</span>
+                    <span class="form__error"><?=isset($errors['date_expire'])  ? $errors['date_expire'] : ''?></span>
                 </div>
             </div>
             <span class="form__error form__error--bottom">Пожалуйста, исправьте ошибки в форме.</span>

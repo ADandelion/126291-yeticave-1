@@ -155,7 +155,5 @@ function save_lot($link, $fields_array = []) {
         ]);
 
     mysqli_stmt_execute($stmt);
-
-    mysqli_stmt_get_result($stmt);
     return mysqli_insert_id($link);
 };
