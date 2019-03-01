@@ -9,7 +9,6 @@ $errors = [];
 // проверить обязательные поля
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
-/*  echo '<pre>' . var_export($_POST , true) . '</pre>';  die;*/
     $required = ['name', 'category', 'description', 'starting_price',
                  'bet_step', 'date_expire'];
 
@@ -19,42 +18,31 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         }
     }
     if (intval($_POST['starting_price']) <= 0) {
-
         $errors['starting_price'] = 'Введите положительное число';
     }
     if (intval($_POST['bet_step']) <= 0) {
-
         $errors['bet_step'] = 'Введите положительное число';
     }
+
     $date = strtotime($_POST['date_expire']);
     $now = time();
     if ($date - $now <= 86400) {
-
         $errors['date_expire'] = 'Дата должна быть больше текущей, хотя бы на один день';
     }
 
 
+    if (empty($_FILES['image']['name'])) {
+        $errors['image'] = 'нет картинки';
+    } elseif (!in_array( mime_content_type($_FILES['image']['tmp_name']), ["image/jpg", "image/png", "image/jpeg"])) {
+        $errors['image'] = 'Загрузите картинку в формате PNG, JPG или JPEG';
+    }
 
-    if (isset($_FILES['image']['name'])) {
-        /*        echo '<pre>' . var_export($_FILES, true) . '</pre>';  die;*/
-        $tmp_name = $_FILES['image']['tmp_name'];
-        $path = 'img/' . $_FILES['image']['name'];
-
-        $mime = mime_content_type($tmp_name);
-        var_dump($mime);
-
-
-        if ($mime !== "image/png" && $mime !== "image/jpg" && $mime !== "image/jpeg") {
-            $errors['file'] = '1Загрузите картинку в формате PNG, JPG или JPEG';
-        }
-        if (empty($mime)) {
-            $errors['file'] = 'нет картинки';
-        }
-
-        if (count($errors) == 0) {
+        if (count($errors) === 0) {
+            $tmp_name = $_FILES['image']['tmp_name'];
+            $path = 'img/' . uniqid() . $_FILES['image']['name'];
             move_uploaded_file($tmp_name, $path);
 
-            save_lot($link,
+           $lot_id = save_lot($link,
                 [
                     'name' => $_POST['name'],
                     'description' => $_POST['description'],
@@ -64,14 +52,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                     'bet_step' => $_POST['bet_step'],
                     'category' => $_POST['category']
                 ]);
-
-            header("Location: /"); /* Не работает редирикет. Не могу понять почему*/
-
-        } else {
-            var_dump($errors);
+        if ($lot_id > 0) {
+            header("Location: /lot.php?id=" . $lot_id);
         }
-
-    }
+}/*else {var_dump($errors); die;}*/
 }
 
 $layout_content = include_template('add.php', [
