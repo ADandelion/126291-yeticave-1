@@ -56,7 +56,11 @@
             </ul>
         </nav>
 
-        <form class="form form--add-lot container <?= count($errors) > 0 ? 'form--invalid' : '' ?>" enctype="multipart/form-data" action="add.php" method="post" name="addLot"> <!-- form--invalid -->
+        <form class="form form--add-lot container <?= count($errors) > 0 ? 'form--invalid' : '' ?>"
+              enctype="multipart/form-data"
+              action="add.php"
+              method="post"
+              name="addLot"> <!-- form--invalid -->
             <h2>Добавление лота</h2>
             <div class="form__container-two">
                 <div class="form__item  <?= isset($errors['name']) ? 'form__item--invalid' : '' ?>"> <!--  -->
