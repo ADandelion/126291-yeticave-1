@@ -161,9 +161,9 @@ function save_lot($link, $fields_array = []) {
 ;function addNewUser ($link, $fields_array = []) {
     $sql = "
             INSERT INTO `users`
-            (id, email, password, name, contact, avatar, date_registered)
+            (email, password, name, contact, avatar, date_registered)
             VALUES
-            (5, ?, ?, ?, ?, ?, NOW());
+            ( ?, ?, ?, ?, ?, NOW());
 
             ";
 

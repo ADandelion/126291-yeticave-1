@@ -85,7 +85,7 @@ WHERE id = 1;
 SELECT * FROM bets
 WHERE lot_id = 1
 ORDER BY add_date DESC;
-SELECT * FROM users
+SELECT * FROM `users`
 
 
 
