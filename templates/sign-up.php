@@ -70,7 +70,7 @@
             </div>
             <div class="form__item <?= isset($errors['contacts']) ? 'form__item--invalid' : '' ?>">
                 <label for="message">Контактные данные*</label>
-                <textarea id="message" name="contacts" placeholder="Напишите как с вами связаться"  value="<?=isset($_POST['contacts'])  ? screening_txt($_POST['contacts']) : ''?>"></textarea>
+                <textarea id="message" name="contacts" placeholder="Напишите как с вами связаться"  ><?=isset($_POST['contacts'])  ? screening_txt($_POST['contacts']) : ''?></textarea>
                 <span class="form__error">Напишите как с вами связаться</span>
             </div>
             <div class="form__item form__item--file form__item--last">

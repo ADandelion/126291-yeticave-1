@@ -45,19 +45,23 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     }
 
 // Проверяем является Аватар изображением
-    if (!empty($_FILES['image']['name'])) {
-        if (!in_array(mime_content_type($_FILES['image']['tmp_name']), ["image/jpg", "image/png", "image/jpeg"])) {
+
+    if (!empty($_FILES['image']['name']) && !in_array(mime_content_type($_FILES['image']['tmp_name']),
+            ["image/jpg", "image/png", "image/jpeg"]))
+    {
             $errors['image'] = 'Загрузите картинку в формате PNG, JPG или JPEG';
-        }
-    }
+    }elseif (empty($_FILES['image']['name'])) {
+        $path = '';
+    } else {
         $path = 'img/' . uniqid() . $_FILES['image']['name'];
         move_uploaded_file($tmp_name, $path);
+    }
+
 
  // Если все в порядке. Добавляем пользователя
     if (count($errors) === 0) {
         $password = password_hash($_POST['password'], PASSWORD_DEFAULT);
         $tmp_name = $_FILES['image']['tmp_name'];
-
 
         $newUser = addNewUser($link,
             [
@@ -68,7 +72,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 'image' => $path
             ]);
 
-
+        header("Location: /login.php");
     }
 
 }
