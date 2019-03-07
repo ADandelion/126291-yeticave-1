@@ -6,6 +6,10 @@ require_once 'functions.php';
 session_start();
 $errors = [];
 
+if (isset($_SESSION['user'])) {
+    header("Location: /");
+}
+
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
     $required = ['email', 'password'];
@@ -25,10 +29,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $user = $res ? mysqli_fetch_array($res, MYSQLI_ASSOC) : null;
 
     if (!count($errors) and $user) {
-        if (password_verify($_POST['password'], $user['password'])) {
-            $_SESSION['user'] = $user;
-        }
-        else {
+        if (!password_verify($_POST['password'], $user['password'])) {
             $errors['password'] = 'Неверный пароль';
         }
     }
@@ -36,34 +37,20 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $errors['email'] = 'Такой пользователь не найден';
     }
 
-    if (count($errors) > 0) {
-        $page_content = include_template('login.php',
-            [
-                'categories' => all_categories ($link),
-                'title' => $title,
-                'user_name' => $user_name,
-                'errors' => $errors
-            ]);
-    }
-    else {
+    if (count($errors) === 0) {
+        $_SESSION['user'] = $user;
         header("Location: /");
-    }
-
-} else {
-    if (isset($_SESSION['user'])) {
-        $page_content = include_template('index.php', ['user_name' => $_SESSION['user']['name']]);
-    }
-    else {
-        $page_content = include_template('enter.php', []);
     }
 }
 
-
+/*$is_auth = isset($_SESSION['user']) ? 1 : 0;
+$user_name = $is_auth === 1 ? $_SESSION['user']['name'] : '';*/
 
 $layout_content = include_template('login.php', [
     'categories' => all_categories ($link),
     'title' => $title,
-    'user_name' => $user_name,
+    'is_auth' => 0,
+    'user_name' => '',
     'errors' => $errors
 
 ]);
