@@ -156,4 +156,24 @@ function save_lot($link, $fields_array = []) {
 
     mysqli_stmt_execute($stmt);
     return mysqli_insert_id($link);
+}
+
+;function addNewUser ($link, $fields_array = []) {
+    $sql = "
+            INSERT INTO `users`
+            (email, password, name, contact, avatar, date_registered)
+            VALUES
+            ( ?, ?, ?, ?, ?, NOW());
+
+            ";
+
+    $stmt = db_get_prepare_stmt($link, $sql,
+        [
+            $fields_array['email'],$fields_array['password'],
+            $fields_array['name'], $fields_array['contacts'],
+            $fields_array['image']
+        ]);
+
+    mysqli_stmt_execute($stmt);
+    return mysqli_insert_id($link);
 };

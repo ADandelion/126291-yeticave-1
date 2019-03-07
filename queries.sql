@@ -86,8 +86,12 @@ SELECT * FROM bets
 WHERE lot_id = 1
 ORDER BY add_date DESC;
 
+select * from `users`;
 
-select * from `lots`;
+DELETE FROM `users`
+where id between 2 and 4
 
-DELETE from `lots` WHERE id BETWEEN 44  AND 64
+
+
+
 
