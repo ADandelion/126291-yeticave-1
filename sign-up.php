@@ -1,8 +1,9 @@
 <?php
+session_start();
+
 require_once 'db.php';
 require_once 'data.php';
 require_once 'functions.php';
-
 $errors = [];
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
@@ -50,18 +51,17 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             ["image/jpg", "image/png", "image/jpeg"]))
     {
             $errors['image'] = 'Загрузите картинку в формате PNG, JPG или JPEG';
-    }elseif (empty($_FILES['image']['name'])) {
-        $path = '';
-    } else {
-        $path = 'img/' . uniqid() . $_FILES['image']['name'];
-        move_uploaded_file($tmp_name, $path);
     }
-
-
  // Если все в порядке. Добавляем пользователя
     if (count($errors) === 0) {
         $password = password_hash($_POST['password'], PASSWORD_DEFAULT);
-        $tmp_name = $_FILES['image']['tmp_name'];
+        if (!empty($_FILES['image']['name'])) {
+            $tmp_name = $_FILES['image']['tmp_name'];
+            $path = 'img/' . uniqid() . $_FILES['image']['name'];
+            move_uploaded_file($tmp_name, $path);
+        } else {
+            $path = null;
+        }
 
         $newUser = addNewUser($link,
             [
