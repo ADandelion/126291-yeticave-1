@@ -1,8 +1,10 @@
 <?php
+session_start();
+
+
 require_once 'db.php';
 require_once 'data.php';
 require_once 'functions.php';
-
 
 $content = include_template('main.php', ['categories' => all_categories ($link), 'lots' => all_lots($link)]);
 

@@ -1,10 +1,19 @@
 <?php
+session_start();
+
+if (!isset($is_auth)) {
+    header("Location: login.php");
+    exit();
+}
+
+
 require_once 'db.php';
 require_once 'data.php';
 require_once 'functions.php';
 
-
 $errors = [];
+
+
 
 // проверить обязательные поля
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {

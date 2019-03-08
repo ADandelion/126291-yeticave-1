@@ -1,8 +1,9 @@
 <?php
+session_start();
+
 require_once 'db.php';
 require_once 'data.php';
 require_once 'functions.php';
-
 
 $layout_content = include_template('404.php', [
     'categories' => all_categories ($link),

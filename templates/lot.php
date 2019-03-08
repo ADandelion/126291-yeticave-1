@@ -23,18 +23,24 @@
             <a class="main-header__add-lot button" href="add.php">Добавить лот</a>
             <nav class="user-menu">
 
-                <?php if ($is_auth === 1): ?>
+                <?php if ($is_auth): ?>
                     <div class="user-menu__logged">
                         <p><?=$user_name; ?></p>
                     </div>
+
+                    <div class="user-menu__logged">
+                        <a class="user-menu__logout" href="logout.php">Выход</a>
+                    </div>
+
                 <?php else: ?>
 
                     <ul class="user-menu__list">
+
                         <li class="user-menu__item">
-                            <a href="sign-up.html">Регистрация</a>
+                            <a href="sign-up.php">Регистрация</a>
                         </li>
                         <li class="user-menu__item">
-                            <a href="login.html">Вход</a>
+                            <a href="login.php">Вход</a>
                         </li>
                     </ul>
                 <?php endif; ?>
@@ -79,7 +85,9 @@
                                 Мин. ставка <span><?=formatPrice($lot['price'] + $lot['bet_step']); ?></span>
                             </div>
                         </div>
-                        <?php /*if(!isset($_SERVER['user'])): */?>
+                        <?php if (!$is_auth): ?>
+
+                        <?php else: ?>
                         <form class="lot-item__form" action="https://echo.htmlacademy.ru" method="post">
                             <p class="lot-item__form-item form__item form__item--invalid">
                                 <label for="cost">Ваша ставка</label>
@@ -88,6 +96,7 @@
                             </p>
                             <button type="submit" class="button">Сделать ставку</button>
                         </form>
+                        <?php endif; ?>
                     </div>
                     <div class="history">
                         <h3>История ставок (<span>10</span>)</h3>
