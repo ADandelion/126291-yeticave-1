@@ -93,6 +93,7 @@ function all_lots ($link) {
 
 
 /***
+ * Собираем массив всех категорий
  * @param $link
  * @return array|null
  */
@@ -109,7 +110,7 @@ function all_categories ($link) {
 };
 
 /***
- *
+ * Собираем данные лота по id
  * @param $link
  * @param $id
  * @return array | null
@@ -136,13 +137,18 @@ function get_one_lot ($link, $id) {
     return mysqli_fetch_assoc($result);
 };
 
-
+/***
+ * Записываем новый лот в БД
+ * @param $link
+ * @param array $fields_array
+ * @return int|string
+ */
 function save_lot($link, $fields_array = []) {
     $sql = "
             INSERT INTO `lots`
             (date_create, name, description, image, starting_price, date_expire, bet_step, user_id, category_id )
             VALUES
-            (NOW(), ?, ?, ?, ?, ?, ?, 1, ?);
+            (NOW(), ?, ?, ?, ?, ?, ?, ?, ?);
 
             ";
 
@@ -151,14 +157,42 @@ function save_lot($link, $fields_array = []) {
             $fields_array['name'],$fields_array['description'],
             $fields_array['image'], $fields_array['starting_price'],
             $fields_array['date_expire'], $fields_array['bet_step'],
-            $fields_array['category']
+            $fields_array['user_id'],$fields_array['category'],
         ]);
+
 
     mysqli_stmt_execute($stmt);
     return mysqli_insert_id($link);
-}
+};
+function save_bet($link, $fields_array = []) {
+    $sql = "
+            INSERT INTO `lots`
+            (date_create, name, description, image, starting_price, date_expire, bet_step, user_id, category_id )
+            VALUES
+            (NOW(), ?, ?, ?, ?, ?, ?, ?, ?);
 
-;function addNewUser ($link, $fields_array = []) {
+            ";
+
+    $stmt = db_get_prepare_stmt($link, $sql,
+        [
+            $fields_array['name'],$fields_array['description'],
+            $fields_array['image'], $fields_array['starting_price'],
+            $fields_array['date_expire'], $fields_array['bet_step'],
+            $fields_array['user_id'],$fields_array['category'],
+        ]);
+
+
+    mysqli_stmt_execute($stmt);
+    return mysqli_insert_id($link);
+};
+
+/**
+ * Записываем нового пользователя в БД
+ * @param $link
+ * @param array $fields_array
+ * @return int|string
+ */
+function addNewUser ($link, $fields_array = []) {
     $sql = "
             INSERT INTO `users`
             (email, password, name, contact, avatar, date_registered)
@@ -177,3 +211,24 @@ function save_lot($link, $fields_array = []) {
     mysqli_stmt_execute($stmt);
     return mysqli_insert_id($link);
 };
+
+
+function get_bets ($link, $lot_id) {
+    $bets = [];
+
+    $sql = "
+    select b.*, u.name from `bets` as b
+    join `users` as u on u.id = b.user_id
+    where lot_id = ?
+      ";
+    $stmt = db_get_prepare_stmt($link, $sql, [$lot_id]);
+    mysqli_stmt_execute($stmt);
+    $result = mysqli_stmt_get_result($stmt);
+
+
+    if($result !== false) {
+        $bets = mysqli_fetch_all($result, MYSQLI_ASSOC);
+    }
+
+    return $bets;
+}

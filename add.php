@@ -1,11 +1,10 @@
 <?php
 session_start();
 
-if (!isset($is_auth)) {
+if (!isset($_SESSION['user'])) {
     header("Location: login.php");
     exit();
 }
-
 
 require_once 'db.php';
 require_once 'data.php';
@@ -53,6 +52,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
            $lot_id = save_lot($link,
                 [
+                    'user_id' => $user_id,
                     'name' => $_POST['name'],
                     'description' => $_POST['description'],
                     'image' => $path,

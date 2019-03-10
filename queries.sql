@@ -88,8 +88,9 @@ ORDER BY add_date DESC;
 
 select * from `lots`;
 
-DELETE FROM `users`
-where id between 1 and 60
+select b.*, u.name from `bets` as b
+join `users` as u on u.id = b.user_id
+where lot_id = 1
 
 
 

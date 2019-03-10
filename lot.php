@@ -5,27 +5,46 @@ require_once 'db.php';
 require_once 'data.php';
 require_once 'functions.php';
 
-$layout_content = include_template('404.php', [
+if (!isset($_GET['id'])) {
+
+    $layout_content = include_template('404.php', [
+        'categories' => all_categories ($link),
+        'user_name' => $user_name,
+        'is_auth' => $is_auth,
+        'error' => 'Лот не найден'
+    ]);
+
+    print($layout_content);
+    exit();
+}
+
+$lot_id = intval($_GET['id']);
+$lot = get_one_lot($link, $lot_id);
+
+if (empty($lot)) {
+
+    $layout_content = include_template('404.php', [
+        'categories' => all_categories ($link),
+        'user_name' => $user_name,
+        'is_auth' => $is_auth,
+        'error' => 'Лот не найден'
+    ]);
+
+    print($layout_content);
+    exit();
+}
+
+/// Получение ставок
+$bets = get_bets($link, $lot_id);
+
+
+$layout_content = include_template('lot.php', [
     'categories' => all_categories ($link),
     'user_name' => $user_name,
     'is_auth' => $is_auth,
-    'error' => 'Лот не найден'
+    'lot' => $lot,
+    'bets' => $bets
 ]);
 
-if(isset($_GET['id'])) {
-
-    $lot_id = intval($_GET['id']);
-    $lot = get_one_lot($link, $lot_id);
-
-    if ($lot !== null) {
-
-        $layout_content = include_template('lot.php', [
-            'categories' => all_categories ($link),
-            'user_name' => $user_name,
-            'is_auth' => $is_auth,
-            'lot' => $lot
-        ]);
-    }
-}
 
 print($layout_content);
