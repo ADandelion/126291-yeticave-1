@@ -164,21 +164,27 @@ function save_lot($link, $fields_array = []) {
     mysqli_stmt_execute($stmt);
     return mysqli_insert_id($link);
 };
-function save_bet($link, $fields_array = []) {
+/**
+ *
+ *
+ * @param $link
+ * @param $bet_cost
+ * @param $user_id
+ * @param $lot_id
+ * @return int|string
+ */
+function save_bet($link, $bet_cost, $user_id, $lot_id ) {
     $sql = "
-            INSERT INTO `lots`
-            (date_create, name, description, image, starting_price, date_expire, bet_step, user_id, category_id )
+            INSERT INTO `bets`
+            (price, user_id, lot_id)
             VALUES
-            (NOW(), ?, ?, ?, ?, ?, ?, ?, ?);
+            (?, ?, ?);
 
             ";
 
     $stmt = db_get_prepare_stmt($link, $sql,
         [
-            $fields_array['name'],$fields_array['description'],
-            $fields_array['image'], $fields_array['starting_price'],
-            $fields_array['date_expire'], $fields_array['bet_step'],
-            $fields_array['user_id'],$fields_array['category'],
+            $bet_cost, $user_id, $lot_id
         ]);
 
 

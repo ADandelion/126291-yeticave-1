@@ -88,18 +88,18 @@
                         <?php if (!$is_auth): ?>
 
                         <?php else: ?>
-                        <form class="lot-item__form" enctype="multipart/form-data" action="lot.php" method="post">
-                            <p class="lot-item__form-item form__item form__item--invalid">
+                        <form class="lot-item__form <?= !empty($error) > 0 ? 'form--invalid' : '' ?>" enctype="multipart/form-data" action="" method="post">
+                            <p class="lot-item__form-item form__item <?= !empty($error) ? 'form__item--invalid' : '' ?>">
                                 <label for="cost">Ваша ставка</label>
                                 <input id="cost" type="text" name="cost" placeholder="<?=$lot['starting_price'] + $lot['bet_step']; ?>">
-                                <span class="form__error">Введите наименование лота</span>
+                                <span class="form__error"><?= !empty($error) ? $error : '' ?></span>
                             </p>
                             <button type="submit" class="button">Сделать ставку</button>
                         </form>
                         <?php endif; ?>
                     </div>
                     <div class="history">
-                        <h3>История ставок (<span><?=count($bets/**/); ?></span>)</h3>
+                        <h3>История ставок (<span><?=count($bets); ?></span>)</h3>
                         <table class="history__list">
                             <?php foreach ($bets as $bet): ?>
 
