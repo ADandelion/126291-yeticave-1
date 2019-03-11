@@ -90,7 +90,7 @@
                             <form class="lot-item__form <?= !empty($error) > 0 ? 'form--invalid' : '' ?>" enctype="multipart/form-data" action="" method="post">
                                 <p class="lot-item__form-item form__item <?= !empty($error) ? 'form__item--invalid' : '' ?>">
                                     <label for="cost">Ваша ставка</label>
-                                    <input id="cost" type="text" name="cost" placeholder="<?=$lot['starting_price'] + $lot['bet_step']; ?>">
+                                    <input id="cost" type="text" name="cost" placeholder="<?=$lot['price'] + $lot['bet_step']; ?>">
                                     <span class="form__error"><?= !empty($error) ? $error : '' ?></span>
                                 </p>
                                 <button type="submit" class="button">Сделать ставку</button>

@@ -22,12 +22,6 @@
             </form>
             <a class="main-header__add-lot button" href="add.php">Добавить лот</a>
             <nav class="user-menu">
-                <?php if ($is_auth): ?>
-                    <div class="user-menu__logged">
-                        <p><?=$user_name; ?></p>
-                    </div>
-
-                <?php else: ?>
 
                     <ul class="user-menu__list">
 
@@ -38,7 +32,6 @@
                             <a href="login.php">Вход</a>
                         </li>
                     </ul>
-                <?php endif; ?>
             </nav>
         </div>
     </header>

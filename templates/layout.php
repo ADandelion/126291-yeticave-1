@@ -25,7 +25,7 @@
 
                 <?php if ($is_auth): ?>
                     <div class="user-menu__logged">
-                        <p><?=$user_name; ?></p>
+                        <p> <?=screening_txt($user_name); ?></p>
                     </div>
                     <div class="user-menu__logged">
                         <a class="user-menu__logout" href="logout.php">Выход</a>

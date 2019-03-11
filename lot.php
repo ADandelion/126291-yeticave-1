@@ -21,32 +21,6 @@ if (!isset($_GET['id'])) {
 $lot_id = intval($_GET['id']);
 $lot = get_one_lot($link, $lot_id);
 
-
-
-// Проверям является авторизованный пользовтаель автором лота? Возвращает true если является
-$user_lot = intval($_SESSION['user']['id']) === intval($lot['user_id']) ? true : false;
-var_dump($user_lot);
-
-// Проверям, добавлял авторизованный пользоваель ставку по текущему лоту ? . Возвращает true добавлял
-$user_bet_amount = get_user_bet($link, intval($_SESSION['user']['id']), $lot_id) !== null ? true : false;
-var_dump($user_bet_amount);
-
-// Проверям, истек лот или нет ? . Возвращает true если истек
-$expire_lot_bet = bet_for_expire_lot($lot['date_expire']) ;
-var_dump($expire_lot_bet);
-
-$show_bet_form = false;
-
-
-if (($user_lot == false) && ($user_bet_amount == false) && ($expire_lot_bet == false)) {
-    $show_bet_form = true;
-}
-
-
-/*var_dump($show_bet_form);*/
-
-
-
 if (empty($lot)) {
 
     $layout_content = include_template('404.php', [
@@ -61,8 +35,13 @@ if (empty($lot)) {
 }
 $minBet = intval($lot['price']) + intval($lot['bet_step']);
 $error = '';
-if ($_SERVER['REQUEST_METHOD'] == 'POST' && $is_auth === 1) {
 
+$show_bet_form = $is_auth == 1
+    && !bet_for_expire_lot($lot['date_expire'])
+    && $user_id == intval($lot['user_id'])
+    && empty(get_user_bet($link, $user_id, $lot_id));
+
+if ($_SERVER['REQUEST_METHOD'] == 'POST' && $is_auth === 1) {
 
     if (empty($_POST['cost'])) {
         $error = 'Ввидете минимальную сумму ставки';
@@ -75,9 +54,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && $is_auth === 1) {
         header('Location: lot.php?id=' . $lot_id);
     }
 }
-
-
-
 
 /// Получение ставок
 $bets = get_bets($link, $lot_id);
@@ -95,10 +71,3 @@ $layout_content = include_template('lot.php', [
 
 
 print($layout_content);
-
-
-// 3 пер.
-// 1пер - автор лота, если ложь
-// 2пер - твоя ставка если ложь
-// 3пер - истек лот если ложь
-// is_auth - есть если истина

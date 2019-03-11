@@ -25,7 +25,7 @@
 
                 <?php if ($is_auth): ?>
                     <div class="user-menu__logged">
-                        <p><?=$user_name; ?></p>
+                        <p> <?=screening_txt($user_name); ?></p>
                     </div>
                     <div class="user-menu__logged">
                         <a class="user-menu__logout" href="logout.php">Выход</a>
@@ -64,10 +64,10 @@
               enctype="multipart/form-data"
               action="add.php"
               method="post"
-              name="addLot"> <!-- form--invalid -->
+              name="addLot">
             <h2>Добавление лота</h2>
             <div class="form__container-two">
-                <div class="form__item  <?= isset($errors['name']) ? 'form__item--invalid' : '' ?>"> <!--  -->
+                <div class="form__item  <?= isset($errors['name']) ? 'form__item--invalid' : '' ?>">
                     <label for="lot-name">Наименование</label>
                     <input
                             id="lot-name"
@@ -102,7 +102,7 @@ s
                 <textarea id="message" name="description" placeholder="Напишите описание лота"><?=isset($_POST['description'])  ? screening_txt($_POST['description']) : ''?></textarea>
                 <span class="form__error">Напишите описание лота</span>
             </div>
-            <div class="form__item form__item--file <?=isset($errors['image']) ? 'form__item--invalid' : '' ?>"> <!-- form__item--uploaded -->
+            <div class="form__item form__item--file <?=isset($errors['image']) ? 'form__item--invalid' : '' ?>">
                 <label>Изображение</label>
                 <div class="preview">
                     <button class="preview__remove" type="button">x</button>

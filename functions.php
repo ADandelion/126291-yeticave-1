@@ -57,6 +57,9 @@ function screening_txt($scr) {
 function lot_expire ($date) {
     $currentDate = date_create();
     $lotDate = date_create($date);
+    if ($currentDate->getTimestamp() > $lotDate ->getTimestamp()) {
+        return '-- : --';
+    }
     $interval= $lotDate->getTimestamp()- $currentDate->getTimestamp();
     $h = floor($interval / 3600);
     $m = floor(($interval - $h * 3600) / 60);
@@ -125,7 +128,6 @@ function get_one_lot ($link, $id) {
       JOIN categories on lots.category_id = categories.id
       LEFT JOIN bets on lots.id = bets.lot_id
       WHERE lots.winner_id IS NULL
-            AND lots.date_expire > NOW()
             AND lots.id = ?
       GROUP BY lots.id
 ";
@@ -165,8 +167,7 @@ function save_lot($link, $fields_array = []) {
     return mysqli_insert_id($link);
 };
 /**
- *
- *
+ * Сохраняем ставку в БД
  * @param $link
  * @param $bet_cost
  * @param $user_id
@@ -219,8 +220,7 @@ function addNewUser ($link, $fields_array = []) {
 };
 
 /**
- *
- *`
+ * Получаем все ставки по id лота
  * @param $link
  * @param $lot_id
  * @return array|null
@@ -229,9 +229,14 @@ function get_bets ($link, $lot_id) {
     $bets = [];
 
     $sql = "
-    select b.*, u.name from `bets` as b
-    join `users` as u on u.id = b.user_id
+    select b.*, u.name 
+    from `bets` 
+      as b
+    join `users` 
+      as u 
+      on u.id = b.user_id
     where lot_id = ?
+    order by b.id desc 
       ";
     $stmt = db_get_prepare_stmt($link, $sql, [$lot_id]);
     mysqli_stmt_execute($stmt);
@@ -245,7 +250,13 @@ function get_bets ($link, $lot_id) {
     return $bets;
 }
 
-
+/**
+ * Получаем ставку пользоваетеля по лоту
+ * @param $link
+ * @param $user_id
+ * @param $lot_id
+ * @return array|null
+ */
 function get_user_bet ($link, $user_id, $lot_id) {
     $sql = "
         SELECT id 
@@ -262,6 +273,11 @@ function get_user_bet ($link, $user_id, $lot_id) {
     return mysqli_fetch_assoc($result);
 }
 
+/**
+ * Проверяем истек лот или нет
+ * @param $expireDate
+ * @return bool
+ */
 function bet_for_expire_lot ($expireDate) {
     $currentDate = date_create();
     $lotExpireDate = date_create($expireDate);
