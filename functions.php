@@ -56,6 +56,7 @@ function screening_txt($scr) {
  */
 function lot_expire ($date) {
     $currentDate = date_create();
+    var_dump($currentDate);
     $lotDate = date_create($date);
     $interval= $lotDate->getTimestamp()- $currentDate->getTimestamp();
     $h = floor($interval / 3600);
@@ -218,7 +219,13 @@ function addNewUser ($link, $fields_array = []) {
     return mysqli_insert_id($link);
 };
 
-
+/**
+ *
+ *`
+ * @param $link
+ * @param $lot_id
+ * @return array|null
+ */
 function get_bets ($link, $lot_id) {
     $bets = [];
 
@@ -237,4 +244,21 @@ function get_bets ($link, $lot_id) {
     }
 
     return $bets;
+}
+
+
+function get_user_bet ($link, $user_id, $lot_id) {
+    $sql = "
+        SELECT id 
+        FROM `bets` 
+        WHERE user_id = ?
+          and 
+        lot_id = ?;
+      ";
+
+    $stmt = db_get_prepare_stmt($link, $sql, [$user_id, $lot_id]);
+    mysqli_stmt_execute($stmt);
+    $result = mysqli_stmt_get_result($stmt);
+
+    return mysqli_fetch_assoc($result);
 }

@@ -23,6 +23,11 @@ $lot = get_one_lot($link, $lot_id);
 
 
 
+// Проверям
+$user_lot = intval($_SESSION['user']['id']) === intval($lot['user_id']) ? true : false ;
+$user_bet_amount = get_user_bet($link, intval($_SESSION['user']['id']), $lot_id) !== null ? true : false;
+
+
 if (empty($lot)) {
 
     $layout_content = include_template('404.php', [
@@ -64,9 +69,17 @@ $layout_content = include_template('lot.php', [
     'is_auth' => $is_auth,
     'lot' => $lot,
     'bets' => $bets,
-    'error' => $error
+    'error' => $error,
+    'show_bet_form' => false
 ]);
 
 
 
 print($layout_content);
+
+
+// 3 пер.
+// 1пер - автор лота, если ложь
+// 2пер - твоя ставка если ложь
+// 3пер - истек лот если ложь
+// is_auth - есть если истина

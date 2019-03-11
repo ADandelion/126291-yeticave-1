@@ -28,11 +28,11 @@ VALUES
 INSERT INTO `lots`
 (name, description, image, starting_price, date_expire, bet_step, user_id, winner_id, category_id)
 VALUES
-('2014 Rossignol District Snowboard', 'Доска мега крутая', 'img/lot-1.jpg', 10999, '2018-12-11 00-00-00', 1000, 1, NULL, 1),
-('DC Ply Mens 2016/2017 Snowboard', 'Еще одна крутая доска', 'img/lot-2.jpg', 15999, '2018-12-11 00-00-00', 1000, 2, NULL, 1),
-('Крепления Union Contact Pro 2015 года размер L/XL', 'Крепления', 'img/lot-3.jpg', 8000, '2018-12-11 00-00-00', 1, 2, NULL, 2),
-('Ботинки для сноуборда DC Mutiny Charcoal', 'Ботинки', 'img/lot-4.jpg', 10999, '2018-12-11 00-00-00', 1000, 2, NULL, 3),
-('Куртка для сноуборда DC Mutiny Charcoal', 'Куртка боевая', 'img/lot-5.jpg', 7500, '2018-12-11 00-00-00', 1000, 2, NULL, 4),
+('2014 Rossignol District Snowboard', 'Доска мега крутая', 'img/lot-1.jpg', 10999, '2019-04-11 00-00-00', 1000, 1, NULL, 1),
+('DC Ply Mens 2016/2017 Snowboard', 'Еще одна крутая доска', 'img/lot-2.jpg', 15999, '2019-04-11 00-00-00', 1000, 2, NULL, 1),
+('Крепления Union Contact Pro 2015 года размер L/XL', 'Крепления', 'img/lot-3.jpg', 8000, '2019-04-11 00-00-00', 1, 2, NULL, 2),
+('Ботинки для сноуборда DC Mutiny Charcoal', 'Ботинки', 'img/lot-4.jpg', 10999, '2019-04-11 00-00-00', 1000, 2, NULL, 3),
+('Куртка для сноуборда DC Mutiny Charcoal', 'Куртка боевая', 'img/lot-5.jpg', 7500, '2019-04-11 00-00-00', 1000, 2, NULL, 4),
 ('Маска Oakley Canopy', 'Куртка боевая', 'img/lot-6.jpg', 5000, '2018-12-11 00-00-00', 1000, 2, NULL, 6);
 
 -- Добавляем ставки
@@ -82,16 +82,16 @@ WHERE id = 1;
 
 -- 5. получить список самых свежих ставок для лота по его идентификатору;
 
-SELECT * FROM bets
-WHERE lot_id = 1
-ORDER BY add_date DESC;
+SELECT * FROM bets where user_id =1;
 
-select * from `lots`;
+
+select * from `lots` where id = 2;
 
 select b.*, u.name from `bets` as b
 join `users` as u on u.id = b.user_id
-where lot_id = 1
+where lot_id = 1;
 
 
 
 
+truncate table bets
