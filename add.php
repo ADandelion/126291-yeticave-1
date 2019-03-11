@@ -1,19 +1,18 @@
 <?php
-session_start();
-
-if (!isset($is_auth)) {
-    header("Location: login.php");
-    exit();
-}
 
 
 require_once 'db.php';
 require_once 'data.php';
 require_once 'functions.php';
 
+if (!$is_auth) {
+    header("Location: login.php");
+    exit();
+}
+
+
+
 $errors = [];
-
-
 
 // проверить обязательные поля
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
@@ -53,6 +52,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
            $lot_id = save_lot($link,
                 [
+                    'user_id' => $user_id,
                     'name' => $_POST['name'],
                     'description' => $_POST['description'],
                     'image' => $path,

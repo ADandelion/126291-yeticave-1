@@ -1,9 +1,13 @@
 <?php
-session_start();
 
 require_once 'db.php';
 require_once 'data.php';
 require_once 'functions.php';
+
+if ($is_auth === 1) {
+    header("Location: /");
+}
+
 $errors = [];
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
@@ -26,9 +30,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $errors['email'] = 'Пользователь с этим email уже зарегистрирован';
         }
     }
-    if (!filter_var($_POST['email'], FILTER_VALIDATE_EMAIL)) {
-        $errors['email'] = 'Введите  email';
-    }
+
 
 // Проверяем наличие пароля.
     if (empty($_POST['password'])) {

@@ -1,13 +1,11 @@
 <?php
-session_start();
-
 require_once 'db.php';
 require_once 'data.php';
 require_once 'functions.php';
 
 $errors = [];
 
-if (isset($_SESSION['user'])) {
+if ($is_auth === 1) {
     header("Location: /");
 }
 
@@ -39,9 +37,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         header("Location: /");
     }
 }
-
-/*$is_auth = isset($_SESSION['user']) ? 1 : 0;
-$user_name = $is_auth === 1 ? $_SESSION['user']['name'] : '';*/
 
 $layout_content = include_template('login.php', [
     'categories' => all_categories ($link),
