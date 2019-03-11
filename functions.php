@@ -267,7 +267,7 @@ function bet_for_expire_lot ($expireDate) {
     $lotExpireDate = date_create($expireDate);
 
     if ($lotExpireDate->getTimestamp() < $currentDate->getTimestamp()) {
-        return false;
+        return true;
     }
-    return true;
+    return false;
 }
