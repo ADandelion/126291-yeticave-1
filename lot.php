@@ -25,22 +25,25 @@ $lot = get_one_lot($link, $lot_id);
 
 // Проверям является авторизованный пользовтаель автором лота? Возвращает true если является
 $user_lot = intval($_SESSION['user']['id']) === intval($lot['user_id']) ? true : false;
+var_dump($user_lot);
 
 // Проверям, добавлял авторизованный пользоваель ставку по текущему лоту ? . Возвращает true добавлял
 $user_bet_amount = get_user_bet($link, intval($_SESSION['user']['id']), $lot_id) !== null ? true : false;
+var_dump($user_bet_amount);
 
-// Проверям, истек лот или нет ? . Возвращает false если истек
+// Проверям, истек лот или нет ? . Возвращает true если истек
 $expire_lot_bet = bet_for_expire_lot($lot['date_expire']) ;
+var_dump($expire_lot_bet);
 
 $show_bet_form = false;
 
 
-if ($user_lot === false && $user_bet_amount === false && $expire_lot_bet === false) {
+if (($user_lot == false) && ($user_bet_amount == false) && ($expire_lot_bet == false)) {
     $show_bet_form = true;
 }
 
 
-var_dump($show_bet_form);
+/*var_dump($show_bet_form);*/
 
 
 
