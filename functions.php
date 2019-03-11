@@ -56,7 +56,6 @@ function screening_txt($scr) {
  */
 function lot_expire ($date) {
     $currentDate = date_create();
-    var_dump($currentDate);
     $lotDate = date_create($date);
     $interval= $lotDate->getTimestamp()- $currentDate->getTimestamp();
     $h = floor($interval / 3600);
@@ -261,4 +260,14 @@ function get_user_bet ($link, $user_id, $lot_id) {
     $result = mysqli_stmt_get_result($stmt);
 
     return mysqli_fetch_assoc($result);
+}
+
+function bet_for_expire_lot ($expireDate) {
+    $currentDate = date_create();
+    $lotExpireDate = date_create($expireDate);
+
+    if ($lotExpireDate->getTimestamp() < $currentDate->getTimestamp()) {
+        return false;
+    }
+    return true;
 }
