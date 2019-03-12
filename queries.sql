@@ -94,4 +94,4 @@ where lot_id = 1;
 
 
 
-truncate table bets
+truncate table `bets`

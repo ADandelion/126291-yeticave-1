@@ -25,7 +25,7 @@
 
                 <?php if ($is_auth): ?>
                     <div class="user-menu__logged">
-                        <p><?=$user_name; ?></p>
+                        <p><?=screening_txt($user_name); ?></p>
                     </div>
 
                     <div class="user-menu__logged">
@@ -90,7 +90,7 @@
                             <form class="lot-item__form <?= !empty($error) > 0 ? 'form--invalid' : '' ?>" enctype="multipart/form-data" action="" method="post">
                                 <p class="lot-item__form-item form__item <?= !empty($error) ? 'form__item--invalid' : '' ?>">
                                     <label for="cost">Ваша ставка</label>
-                                    <input id="cost" type="text" name="cost" placeholder="<?=$lot['price'] + $lot['bet_step']; ?>">
+                                    <input id="cost" type="text" name="cost" placeholder="<?= $lot['price'] + $lot['bet_step']; ?>">
                                     <span class="form__error"><?= !empty($error) ? $error : '' ?></span>
                                 </p>
                                 <button type="submit" class="button">Сделать ставку</button>
@@ -105,7 +105,7 @@
 
                             <tr class="history__item">
                                 <td class="history__name"><?=$bet['name']; ?></td>
-                                <td class="history__price"><?=$bet['price']; ?> р</td>
+                                <td class="history__price"><?=formatPrice($bet['price']) ; ?> </td>
                                 <td class="history__time"><?=$bet['add_date']; ?></td>
                             </tr>
 

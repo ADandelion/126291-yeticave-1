@@ -36,9 +36,9 @@ if (empty($lot)) {
 $minBet = intval($lot['price']) + intval($lot['bet_step']);
 $error = '';
 
-$show_bet_form = $is_auth == 1
+$show_bet_form = $is_auth === 1
     && !bet_for_expire_lot($lot['date_expire'])
-    && $user_id == intval($lot['user_id'])
+    && $user_id != intval($lot['user_id'])
     && empty(get_user_bet($link, $user_id, $lot_id));
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST' && $is_auth === 1) {

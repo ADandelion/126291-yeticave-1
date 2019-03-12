@@ -10,8 +10,6 @@ if (!$is_auth) {
     exit();
 }
 
-
-
 $errors = [];
 
 // проверить обязательные поля
@@ -31,6 +29,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     if (intval($_POST['bet_step']) <= 0) {
         $errors['bet_step'] = 'Введите положительное число';
     }
+
 
     $date = strtotime($_POST['date_expire']);
     $now = time();

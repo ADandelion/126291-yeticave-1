@@ -1,5 +1,4 @@
 <?php
-
 require_once 'db.php';
 require_once 'data.php';
 require_once 'functions.php';
@@ -19,8 +18,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $errors[$key] = 'Заполните обязательное поле';
         }
     }
+    if(!empty($_POST['email']) && !filter_var($_POST['email'], FILTER_VALIDATE_EMAIL)) {
+        $errors['email'] = 'Введите  email';
+    }
 // Проверяем наличие имейла и что значение из поля «email» действительно является валидным E-mail адресом
-    if(!empty($_POST['email'])) {
+    if(empty($errors['email'])) {
 
         $email = mysqli_real_escape_string($link, $_POST['email']);
         $sql = "SELECT id FROM users WHERE `email` = '$email'";
@@ -29,22 +31,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         if (mysqli_num_rows($res) > 0) {
             $errors['email'] = 'Пользователь с этим email уже зарегистрирован';
         }
-    }
-
-
-// Проверяем наличие пароля.
-    if (empty($_POST['password'])) {
-        $errors[$key] = 'Поле пароль обязательное';
-    }
-
-// Проверяем наличие имени
-    if (empty($_POST['name'])) {
-        $errors[$key] = 'Поле имя обязательное';
-    }
-
-// Проверяем наличие контактов
-    if (empty($_POST['contacts'])) {
-        $errors[$key] = 'Введите контакты';
     }
 
 // Проверяем является Аватар изображением

@@ -57,7 +57,7 @@
               method="post"
               name="login"
               <?= count($errors) > 0 ? 'form--invalid' : '' ?>
-            > <!-- form--invalid -->
+            >
             <h2>Вход</h2>
             <div class="form__item <?= isset($errors['email']) ? 'form__item--invalid' : '' ?>"> <!-- form__item--invalid -->
                 <label for="email">E-mail*</label>
@@ -66,7 +66,7 @@
             </div>
             <div class="form__item form__item--last <?= isset($errors['password']) ? 'form__item--invalid' : '' ?>">
                 <label for="password">Пароль*</label>
-                <input id="password" type="text" name="password" placeholder="Введите пароль" value="<?=isset($_POST['password'])  ? screening_txt($_POST['password']) : ''?>">
+                <input id="password" type="password" name="password" placeholder="Введите пароль" value="<?=isset($_POST['password'])  ? screening_txt($_POST['password']) : ''?>">
                 <span class="form__error"><?=isset($errors['password'])  ? $errors['password'] : ''?></span>
             </div>
             <button type="submit" class="button">Войти</button>
