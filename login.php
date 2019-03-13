@@ -9,7 +9,9 @@ if ($is_auth === 1) {
     header("Location: /");
 }
 
-if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+
+
     $required = ['email', 'password'];
     foreach ($required as $key) {
         if (empty($_POST[$key])) {

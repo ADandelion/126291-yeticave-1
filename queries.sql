@@ -89,4 +89,7 @@ select date_create, date_expire from `lots` where id =7;
 
 select b.*, u.name from `bets` as b
 join `users` as u on u.id = b.user_id
-where lot_id = 1
+where lot_id = 1;
+
+
+truncate table  `bets`

@@ -1,13 +1,11 @@
 <?php
 require_once 'db.php';
-require_once 'data.php';
 require_once 'mysql_helper.php';
-/***
+/**
  * форматирования суммы и добавления к ней знака рубля
  * @param $price
  * @return string
  */
-
 function formatPrice($price){
     $rubleStyle = " " . "<b class=\"rub\">р</b>";
     $totalPrice = ceil($price);
@@ -17,7 +15,7 @@ function formatPrice($price){
     return number_format($totalPrice , 0, '.', ' ') . $rubleStyle;
 };
 
-/***
+/**
  * Шаблонизатор
  * @param $name
  * @param $data
@@ -45,13 +43,12 @@ function include_template($name, $data) {
  * @param $scr
  * @return string/
  */
-
 function screening_txt($scr) {
     $text = strip_tags($scr);
     return $text;
 };
 
-/***
+/**
  * Вычисляет время до истечения лота
  * @param $date
  * @return string
@@ -68,10 +65,6 @@ function lot_expire ($date) {
     $m = floor(($interval - $h * 3600) / 60);
     return "$h:$m";
 };
-/**
- *
- * @param $time
- */
 
 /**
  *  Заменят числовое описание времени на текстовое
@@ -117,31 +110,26 @@ function all_lots ($link) {
 ';
 
     $res = mysqli_query($link, $sql);
-    if($res !== false) {
-        $lots = mysqli_fetch_all($res, MYSQLI_ASSOC);
-    }
-    return $lots;
+
+    return mysqli_fetch_all($res, MYSQLI_ASSOC);
 };
 
 
-/***
+/**
  * Собираем массив всех категорий
  * @param $link
  * @return array|null
  */
-
 function all_categories ($link) {
     $categories = [];
     $sql = 'SELECT * FROM categories;';
 
     $cat_result = mysqli_query($link, $sql);
-    if($cat_result !== false) {
-        $categories = mysqli_fetch_all($cat_result, MYSQLI_ASSOC);
-    }
-    return $categories;
+    
+    return mysqli_fetch_all($cat_result, MYSQLI_ASSOC);
 };
 
-/***
+/**
  * Собираем данные лота по id
  * @param $link
  * @param $id
@@ -168,7 +156,7 @@ function get_one_lot ($link, $id) {
     return mysqli_fetch_assoc($result);
 };
 
-/***
+/**
  * Записываем новый лот в БД
  * @param $link
  * @param array $fields_array
@@ -182,6 +170,10 @@ function save_lot($link, $fields_array = []) {
             (NOW(), ?, ?, ?, ?, ?, ?, ?, ?);
 
             ";
+
+    if (empty($fields_array)) {
+        return false;
+    }
 
     $stmt = db_get_prepare_stmt($link, $sql,
         [
@@ -229,6 +221,7 @@ function save_bet($link, $bet_cost, $user_id, $lot_id ) {
  * @return int|string
  */
 function addNewUser ($link, $fields_array = []) {
+
     $sql = "
             INSERT INTO `users`
             (email, password, name, contact, avatar, date_registered)
@@ -237,6 +230,9 @@ function addNewUser ($link, $fields_array = []) {
 
             ";
 
+    if (empty($fields_array)) {
+        return false;
+    }
     $stmt = db_get_prepare_stmt($link, $sql,
         [
             $fields_array['email'],$fields_array['password'],
@@ -271,12 +267,7 @@ function get_bets ($link, $lot_id) {
     mysqli_stmt_execute($stmt);
     $result = mysqli_stmt_get_result($stmt);
 
-
-    if($result !== false) {
-        $bets = mysqli_fetch_all($result, MYSQLI_ASSOC);
-    }
-
-    return $bets;
+    return mysqli_fetch_all($result, MYSQLI_ASSOC);
 }
 
 /**

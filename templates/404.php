@@ -61,7 +61,7 @@
 
                 <?php foreach ($categories as $index): ?>
                     <li class="nav__item">
-                        <a  href="pages/all-lots.html"><?=$index['name']; ?></a>
+                        <a  href="pages/all-lots.html"><?= screening_txt($index['name']); ?></a>
                     </li>
                 <?php endforeach; ?>
             </ul>
@@ -80,7 +80,7 @@
         <ul class="nav__list container">
             <?php foreach ($categories as $index): ?>
                 <li class="nav__item">
-                    <a  href="pages/all-lots.html"><?=$index['name']; ?></a>
+                    <a  href="pages/all-lots.html"><?=screening_txt($index['name']); ?></a>
                 </li>
             <?php endforeach; ?>
         </ul>

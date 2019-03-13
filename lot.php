@@ -18,7 +18,7 @@ if (!isset($_GET['id'])) {
 }
 
 $lot_id = intval($_GET['id']);
-$lot = get_one_lot($link, $lot_id);
+$lot =  get_one_lot($link, $lot_id);
 
 if (empty($lot)) {
 
@@ -33,21 +33,24 @@ if (empty($lot)) {
     print($layout_content);
     exit();
 }
-$minBet = intval($lot['price']) + intval($lot['bet_step']);
+$minBet = intval(isset($lot['pr1ice'])) + intval(isset($lot['bet1_step']));
 $error = '';
 
 $show_bet_form = $is_auth === 1
     && !bet_for_expire_lot($lot['date_expire'])
-    && $user_id != intval($lot['user_id'])
+    && $user_id !== intval($lot['user_id'])
     && empty(get_user_bet($link, $user_id, $lot_id));
 
-if ($_SERVER['REQUEST_METHOD'] == 'POST' && $is_auth === 1) {
 
-    if (empty($_POST['cost'])) {
-        $error = 'Ввидете минимальную сумму ставки';
-    } else if (intval($_POST['cost']) < $minBet) {
-        $error = 'Минимум ' . $minBet;
 
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && $is_auth === 1) {
+
+    if (!isset($_POST['cost'])) {
+        $error = 'Произошла ошибка при добавлении лота' ;
+    }
+
+    if (empty($_POST['cost']) || intval($_POST['cost']) < $minBet) {
+        $error = 'Ввидете минимальную ставку';
     } else {
         save_bet($link, $_POST['cost'], $user_id, $lot_id);
 

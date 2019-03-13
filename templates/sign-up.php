@@ -43,7 +43,7 @@
 
                 <?php foreach ($categories as $index): ?>
                     <li class="nav__item">
-                        <a  href="pages/all-lots.html"><?=$index['name']; ?></a>
+                        <a  href="pages/all-lots.html"><?=screening_txt($index['name']); ?></a>
                     </li>
                 <?php endforeach; ?>
 
@@ -55,15 +55,15 @@
               method="post"
               name="addUser"> <!-- form--invalid -->
             <h2>Регистрация нового аккаунта</h2>
-            <div class="form__item  <?= isset($errors['email']) ? 'form__item--invalid' : '' ?>"> <!-- form__item--invalid -->
+            <div class="form__item  <?= isset($errors['email']) ? 'form__item--invalid' : '' ?>">
                 <label for="email">E-mail*</label>
                 <input id="email" type="text" name="email" placeholder="Введите e-mail"
-                       value="<?=isset($_POST['email'])  ? screening_txt($_POST['email']) : ''?>">
+                       value="<?=isset($_POST['email'])   ? screening_txt($_POST['email']) : ''?>">
                 <span class="form__error"><?=isset($errors['email'])  ? $errors['email'] : ''?></span>
             </div>
             <div class="form__item <?= isset($errors['password']) ? 'form__item--invalid' : '' ?>">
                 <label for="password">Пароль*</label>
-                <input id="password" type="text" name="password" placeholder="Введите пароль" value="<?=isset($_POST['password'])  ? screening_txt($_POST['password']) : ''?>">
+                <input id="password" type="text" name="password" placeholder="Введите пароль" value="<?= isset($_POST['password'])  ? screening_txt($_POST['password']) : ''?>">
                 <span class="form__error">Введите пароль</span>
             </div>
             <div class="form__item <?= isset($errors['name']) ? 'form__item--invalid' : '' ?>">
@@ -108,7 +108,7 @@
 
                 <?php foreach ($categories as $index): ?>
                     <li class="nav__item">
-                        <a  href="pages/all-lots.html"><?=$index['name']; ?></a>
+                        <a  href="pages/all-lots.html"><?=screening_txt($index['name']); ?></a>
                     </li>
                 <?php endforeach; ?>
 

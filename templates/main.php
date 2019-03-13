@@ -4,7 +4,7 @@
     <ul class="promo__list">
         <?php foreach ($categories as $index): ?>
             <li class="promo__item promo__item--boards">
-                <a class="promo__link" href="pages/all-lots.html"><?=$index['name']; ?></a>
+                <a class="promo__link" href="pages/all-lots.html"><?=screening_txt($index['name']); ?></a>
             </li>
         <?php endforeach; ?>
     </ul>

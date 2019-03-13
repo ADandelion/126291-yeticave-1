@@ -9,7 +9,7 @@ if ($is_auth === 1) {
 
 $errors = [];
 
-if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     $required = ['email', 'password', 'name', 'contacts'];
 

@@ -11,10 +11,8 @@ if (!$is_auth) {
 
 $errors = [];
 
-var_dump(set_bet_time_phrase('2019-03-13 00:00:00'));
-
 // проверить обязательные поля
-if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     $required = ['name', 'category', 'description', 'starting_price',
                  'bet_step', 'date_expire'];
@@ -24,10 +22,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $errors[$key] = 'Заполните обязательное поле';
         }
     }
-    if (intval($_POST['starting_price']) <= 0) {
+    if (intval(isset($_POST['starting_price'])) <= 0) {
         $errors['starting_price'] = 'Введите начальную цену';
     }
-    if (intval($_POST['bet_step']) <= 0) {
+    if (intval(isset($_POST['bet_step']) ) <= 0) {
         $errors['bet_step'] = 'Введите начальную цену';
     }
 

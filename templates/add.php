@@ -62,7 +62,7 @@
 
                 <?php foreach ($categories as $index): ?>
                     <li class="nav__item">
-                        <a  href="pages/all-lots.html"><?=$index['name']; ?></a>
+                        <a  href="pages/all-lots.html"><?=screening_txt($index['name']) ; ?></a>
                     </li>
                 <?php endforeach; ?>
 
@@ -93,11 +93,11 @@
                     <select id="category" name="category" required>
                         <option value="0" <?=!isset($_POST['category']) || intval($_POST['category']) === 0 ? 'selected' : ''?> disabled>Выберите категорию</option>
 
-                        <?php foreach ($categories as $index): ?>
+                        <?php foreach ($categories as  $index): ?>
 
                             <option
-                                    value="<?=$index['id']; ?>"> <?=$index['name']; ?>
-                                    <?=isset($_POST['category']) && intval($_POST['category']) === $index['id'] ? 'selected' : ''?>
+                                    value="<?=screening_txt($index['id']) ; ?>"> <?=screening_txt($index['name']) ; ?>
+                                    <?=screening_txt(isset($_POST['category']))  &&  intval($_POST['category']) === $index['id'] ? 'selected' : ''?>
                             </option>
 
                         <?php endforeach; ?>
@@ -106,7 +106,7 @@ s
                     <span class="form__error ">Выберите категорию</span>
                 </div>
             </div>
-            <div class="form__item form__item--wide <?= isset($errors['description']) ? 'form__item--invalid' : '' ?>">
+            <div class="form__item form__item--wide <?=screening_txt(isset($errors['description']))  ? 'form__item--invalid' : '' ?>">
                 <label for="message">Описание</label>
                 <textarea id="message" name="description" placeholder="Напишите описание лота"><?=isset($_POST['description'])  ? screening_txt($_POST['description']) : ''?></textarea>
                 <span class="form__error">Напишите описание лота</span>
@@ -128,14 +128,14 @@ s
                 <span class="form__error"><?=isset($errors['image'])  ? $errors['image'] : ''?></span>
             </div>
             <div class="form__container-three">
-                <div class="form__item form__item--small <?= isset($errors['starting_price']) ? 'form__item--invalid' : '' ?>">
+                <div class="form__item form__item--small <?=screening_txt(isset($errors['starting_price']))  ? 'form__item--invalid' : '' ?>">
                     <label for="lot-rate">Начальная цена</label>
                     <input id="lot-rate" type="number" name="starting_price" placeholder="0" value="<?=isset($_POST['starting_price'])  ? screening_txt($_POST['starting_price']) : ''?>">
                     <span class="form__error">Введите начальную цену</span>
                 </div>
-                <div class="form__item form__item--small <?= isset($errors['bet_step']) ? 'form__item--invalid' : '' ?>">
+                <div class="form__item form__item--small <?=screening_txt(isset($errors['bet_step']))  ? 'form__item--invalid' : '' ?>">
                     <label for="lot-step">Шаг ставки</label>
-                    <input id="lot-step" type="number" name="bet_step" placeholder="0" value="<?=isset($_POST['bet_step']) ? intval($_POST['bet_step']) : ''?>">
+                    <input id="lot-step" type="number" name="bet_step" placeholder="0" value="<?=screening_txt(isset($_POST['bet_step']))  ? intval($_POST['bet_step']) : ''?>">
                     <span class="form__error"><?=isset($errors['bet_step'])  ? $errors['bet_step'] : ''?></span>
                 </div>
                 <div class="form__item <?= isset($errors['date_expire']) ? 'form__item--invalid' : '' ?>">
@@ -158,7 +158,7 @@ s
 
             <?php foreach ($categories as $index): ?>
                 <li class="nav__item">
-                    <a  href="pages/all-lots.html"><?=$index['name']; ?></a>
+                    <a  href="pages/all-lots.html"><?=screening_txt($index['name']) ; ?></a>
                 </li>
             <?php endforeach; ?>
 
