@@ -1,7 +1,4 @@
 <?php
-session_start();
-
-
 require_once 'db.php';
 require_once 'data.php';
 require_once 'functions.php';
@@ -12,6 +9,7 @@ $layout_content = include_template('layout.php', [
     'is_auth' => $is_auth,
     'title' => $title,
     'user_name' => $user_name,
+    'user_avatar' => $user_avatar,
     'content' => $content,
     'categories' => all_categories ($link)
 ]);

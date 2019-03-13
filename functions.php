@@ -1,4 +1,6 @@
 <?php
+require_once 'db.php';
+require_once 'data.php';
 require_once 'mysql_helper.php';
 /***
  * форматирования суммы и добавления к ней знака рубля
@@ -61,13 +63,40 @@ function lot_expire ($date) {
         return '-- : --';
     }
     $interval= $lotDate->getTimestamp()- $currentDate->getTimestamp();
+
     $h = floor($interval / 3600);
     $m = floor(($interval - $h * 3600) / 60);
     return "$h:$m";
 };
+/**
+ *
+ * @param $time
+ */
 
+/**
+ *  Заменят числовое описание времени на текстовое
+ * @param $time
+ * @return false|string
+ */
+function set_bet_time_phrase ($time)
+{
 
-/***
+    $currentTime = date_create();
+    $betTime = date_create($time);
+    $interval = floor($currentTime->getTimestamp() - $betTime->getTimestamp());
+
+   if ($interval < 60) {
+       return 'минуту назад';
+    } elseif ($interval < 3600) {
+        return 'час назад';
+    } elseif ($interval < 86400) {
+        return '1 день назад';
+    } else {
+       return date("Y-m-d \в H:i:s");
+
+   }
+}
+/**
  * Самые новые открытые лоты
  * @param $link
  * @return array|null

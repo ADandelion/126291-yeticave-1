@@ -24,6 +24,14 @@
             <nav class="user-menu">
 
                 <?php if ($is_auth): ?>
+                    <?php if ($user_avatar == null): ?>
+
+                    <?php else: ?>
+                        <div class="user-menu__image">
+                            <img src="<?=$user_avatar; ?>" width="200" height="200" alt="Пользователь">
+                        </div>
+                    <?php endif; ?>
+
                     <div class="user-menu__logged">
                         <p><?=screening_txt($user_name); ?></p>
                     </div>
@@ -106,7 +114,7 @@
                             <tr class="history__item">
                                 <td class="history__name"><?=$bet['name']; ?></td>
                                 <td class="history__price"><?=formatPrice($bet['price']) ; ?> </td>
-                                <td class="history__time"><?=$bet['add_date']; ?></td>
+                                <td class="history__time"><?=set_bet_time_phrase($bet['add_date']); ?></td>
                             </tr>
 
                             <?php endforeach; ?>

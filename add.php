@@ -1,9 +1,8 @@
 <?php
-
-
 require_once 'db.php';
 require_once 'data.php';
 require_once 'functions.php';
+
 
 if (!$is_auth) {
     header("Location: login.php");
@@ -11,6 +10,8 @@ if (!$is_auth) {
 }
 
 $errors = [];
+
+var_dump(set_bet_time_phrase('2019-03-13 00:00:00'));
 
 // проверить обязательные поля
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
@@ -24,15 +25,15 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         }
     }
     if (intval($_POST['starting_price']) <= 0) {
-        $errors['starting_price'] = 'Введите положительное число';
+        $errors['starting_price'] = 'Введите начальную цену';
     }
     if (intval($_POST['bet_step']) <= 0) {
-        $errors['bet_step'] = 'Введите положительное число';
+        $errors['bet_step'] = 'Введите начальную цену';
     }
 
 
     $date = strtotime($_POST['date_expire']);
-    $now = time();
+    $now = strtotime('today midnight');
     if ($date - $now <= 86400) {
         $errors['date_expire'] = 'Дата должна быть больше текущей, хотя бы на один день';
     }
@@ -71,8 +72,9 @@ $layout_content = include_template('add.php', [
     'is_auth' => $is_auth,
     'title' => $title,
     'user_name' => $user_name,
+    'user_avatar' => $user_avatar,
     'errors' => $errors
-
 ]);
+
 
 print($layout_content);

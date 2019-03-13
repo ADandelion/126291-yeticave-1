@@ -24,6 +24,15 @@
             <nav class="user-menu">
 
                 <?php if ($is_auth): ?>
+
+                    <?php if ($user_avatar == null): ?>
+
+                    <?php else: ?>
+                        <div class="user-menu__image">
+                            <img src="<?=$user_avatar; ?>" width="200" height="200" alt="Пользователь">
+                        </div>
+                    <?php endif; ?>
+
                     <div class="user-menu__logged">
                         <p> <?=screening_txt($user_name); ?></p>
                     </div>
