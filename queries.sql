@@ -82,14 +82,4 @@ WHERE id = 1;
 
 -- 5. получить список самых свежих ставок для лота по его идентификатору;
 
-SELECT * FROM bets where user_id =1;
-
-
-select date_create, date_expire from `lots` where id =7;
-
-select b.*, u.name from `bets` as b
-join `users` as u on u.id = b.user_id
-where lot_id = 1;
-
-
-truncate table  `bets`
+truncate table `bets`

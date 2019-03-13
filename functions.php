@@ -125,7 +125,7 @@ function all_categories ($link) {
     $sql = 'SELECT * FROM categories;';
 
     $cat_result = mysqli_query($link, $sql);
-    
+
     return mysqli_fetch_all($cat_result, MYSQLI_ASSOC);
 };
 
