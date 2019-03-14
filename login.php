@@ -13,7 +13,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     $required = ['email', 'password'];
     foreach ($required as $key) {
-        if (empty(trim($_POST[$key]))) {
+        if (empty($_POST[$key]) === '' && trim($_POST[$key]) === '') {
             $errors[$key] = 'Это поле надо заполнить';
         }
     }

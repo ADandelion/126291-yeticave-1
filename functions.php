@@ -100,6 +100,7 @@ function set_bet_time_phrase ($time){
  * @return array|null
  */
 function all_lots ($link) {
+
     $sql = '
         SELECT 
               lots.*, 
@@ -109,9 +110,10 @@ function all_lots ($link) {
         LEFT JOIN bets on lots.id = bets.lot_id
         WHERE lots.winner_id IS NULL
             AND lots.date_expire > NOW()
-        GROUP BY lots.id, bets.add_date desc, lots.date_create desc
-        ORDER BY bets.add_date desc, lots.date_create desc
+        GROUP BY lots.id desc, lots.date_create desc
+        ORDER BY lots.date_create desc
 ';
+
 
     $res = mysqli_query($link, $sql);
 

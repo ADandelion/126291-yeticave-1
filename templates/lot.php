@@ -2,7 +2,7 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <title>s<?=screening_txt($lot['name']) ; ?></title>
+    <title><?=screening_txt(($lot['name']) ) ; ?></title>
     <link href="../css/normalize.min.css" rel="stylesheet">
     <link href="../css/style.css" rel="stylesheet">
 </head>
@@ -101,7 +101,7 @@
                                     <input id="cost" type="text" name="cost" placeholder="<?= $lot['price'] + $lot['bet_step']; ?>">
                                     <span class="form__error"><?= !empty($error) ? $error : '' ?></span>
                                 </p>
-                                <button type="submit" class="button">Сделать ставку</button>
+                                <button type="submit" class="button" name="addBet">Сделать ставку</button>
                             </form>
 
                         <?php endif; ?>
