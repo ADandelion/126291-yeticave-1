@@ -64,17 +64,17 @@
             <div class="form__item <?= isset($errors['password']) ? 'form__item--invalid' : '' ?>">
                 <label for="password">Пароль*</label>
                 <input id="password" type="text" name="password" placeholder="Введите пароль" value="<?= isset($_POST['password'])  ? screening_txt($_POST['password']) : ''?>">
-                <span class="form__error">Введите пароль</span>
+                <span class="form__error"><?= isset($errors['password']) ? 'Введите пароль' : '' ?></span>
             </div>
             <div class="form__item <?= isset($errors['name']) ? 'form__item--invalid' : '' ?>">
                 <label for="name">Имя*</label>
                 <input id="name" type="text" name="name" placeholder="Введите имя"  value="<?=isset($_POST['name'])  ? screening_txt($_POST['name']) : ''?>">
-                <span class="form__error">Введите имя</span>
+                <span class="form__error"> <?= isset($errors['name']) ? 'Введите имя' : '' ?></span>
             </div>
             <div class="form__item <?= isset($errors['contacts']) ? 'form__item--invalid' : '' ?>">
                 <label for="message">Контактные данные*</label>
                 <textarea id="message" name="contacts" placeholder="Напишите как с вами связаться"  ><?=isset($_POST['contacts'])  ? screening_txt($_POST['contacts']) : ''?></textarea>
-                <span class="form__error">Напишите как с вами связаться</span>
+                <span class="form__error"><?= isset($errors['contacts']) ? 'Напишите как с вами связаться' : '' ?></span>
             </div>
             <div class="form__item form__item--file form__item--last">
                 <label>Аватар</label>
@@ -89,7 +89,7 @@
                     <label for="photo2">
                         <span>+ Добавить</span>
                     </label>
-                    <span class="form__error">Загрузите картинку в формате PNG, JPG или JPEG</span>
+                    <span class="form__error"><?= isset($errors['image']) ? $errors['image']  : '' ?></span>
 
                 </div>
             </div>

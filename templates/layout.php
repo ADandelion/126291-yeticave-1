@@ -2,7 +2,7 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <title><?=$title; ?></title>
+    <title><?=screening_txt($title) ; ?></title>
     <link href="css/normalize.min.css" rel="stylesheet">
     <link href="css/style.css" rel="stylesheet">
 </head>
@@ -22,15 +22,16 @@
             <a class="main-header__add-lot button" href="add.php">Добавить лот</a>
 
             <nav class="user-menu">
-                <?php if ($user_avatar == null): ?>
-
-                <?php else: ?>
-                    <div class="user-menu__image">
-                        <img src="<?=$user_avatar; ?>" width="200" height="200" alt="Пользователь">
-                    </div>
-                <?php endif; ?>
 
                 <?php if ($is_auth === 1): ?>
+
+                    <?php if (is_null($user_avatar)): ?>
+
+                    <?php else: ?>
+                        <div class="user-menu__image">
+                            <img src="<?=$user_avatar; ?>" width="200" height="200" alt="Пользователь">
+                        </div>
+                    <?php endif; ?>
 
                     <div class="user-menu__logged">
                         <p> <?=screening_txt($user_name); ?></p>

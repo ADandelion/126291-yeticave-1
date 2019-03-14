@@ -2,7 +2,7 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <title><?=$lot['name']; ?></title>
+    <title>s<?=screening_txt($lot['name']) ; ?></title>
     <link href="../css/normalize.min.css" rel="stylesheet">
     <link href="../css/style.css" rel="stylesheet">
 </head>
@@ -24,7 +24,7 @@
             <nav class="user-menu">
 
                 <?php if ($is_auth): ?>
-                    <?php if ($user_avatar == null): ?>
+                    <?php if (is_null($user_avatar)): ?>
 
                     <?php else: ?>
                         <div class="user-menu__image">

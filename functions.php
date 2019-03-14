@@ -63,6 +63,9 @@ function lot_expire ($date) {
 
     $h = floor($interval / 3600);
     $m = floor(($interval - $h * 3600) / 60);
+
+    $h = intval($h) < 10 ? '0' . $h : $h;
+    $m = intval($m) < 10 ? '0' . $m : $m;
     return "$h:$m";
 };
 
@@ -71,23 +74,25 @@ function lot_expire ($date) {
  * @param $time
  * @return false|string
  */
-function set_bet_time_phrase ($time)
-{
-
+function set_bet_time_phrase ($time){
     $currentTime = date_create();
     $betTime = date_create($time);
     $interval = floor($currentTime->getTimestamp() - $betTime->getTimestamp());
 
    if ($interval < 60) {
-       return 'минуту назад';
-    } elseif ($interval < 3600) {
-        return 'час назад';
-    } elseif ($interval < 86400) {
-        return '1 день назад';
-    } else {
+       return 'только что';
+    }
+
+   if ($interval < 3600) {
+        return floor($interval / 60) . 'м назад';
+    }
+
+   if ($interval < 86400) {
+        return floor($interval / 3600) . 'ч назад';
+    }
+
        return date("Y-m-d \в H:i:s");
 
-   }
 }
 /**
  * Самые новые открытые лоты
@@ -95,7 +100,6 @@ function set_bet_time_phrase ($time)
  * @return array|null
  */
 function all_lots ($link) {
-    $lots = [];
     $sql = '
         SELECT 
               lots.*, 
@@ -121,7 +125,6 @@ function all_lots ($link) {
  * @return array|null
  */
 function all_categories ($link) {
-    $categories = [];
     $sql = 'SELECT * FROM categories;';
 
     $cat_result = mysqli_query($link, $sql);
@@ -171,16 +174,26 @@ function save_lot($link, $fields_array = []) {
 
             ";
 
-    if (empty($fields_array)) {
-        return false;
+
+    $req = ['name', 'category', 'description', 'starting_price',
+        'bet_step', 'date_expire', 'image', 'user_id'];
+
+    foreach ($req as $key) {
+        if (empty($key)) {
+            return 0;
+        }
     }
 
     $stmt = db_get_prepare_stmt($link, $sql,
         [
-            $fields_array['name'],$fields_array['description'],
-            $fields_array['image'], $fields_array['starting_price'],
-            $fields_array['date_expire'], $fields_array['bet_step'],
-            $fields_array['user_id'],$fields_array['category'],
+            $fields_array['name'],
+            $fields_array['description'],
+            $fields_array['image'],
+            $fields_array['starting_price'],
+            $fields_array['date_expire'],
+            $fields_array['bet_step'],
+            $fields_array['user_id'],
+            $fields_array['category']
         ]);
 
 
@@ -203,6 +216,7 @@ function save_bet($link, $bet_cost, $user_id, $lot_id ) {
             (?, ?, ?);
 
             ";
+
 
     $stmt = db_get_prepare_stmt($link, $sql,
         [
@@ -230,14 +244,22 @@ function addNewUser ($link, $fields_array = []) {
 
             ";
 
-    if (empty($fields_array)) {
-        return false;
+    $req = ['email', 'password', 'name', 'contacts',
+        'image'];
+
+    foreach ($req as $key) {
+        if (empty($key)) {
+            return 0;
+        }
     }
+
     $stmt = db_get_prepare_stmt($link, $sql,
         [
-            $fields_array['email'],$fields_array['password'],
-            $fields_array['name'], $fields_array['contacts'],
-            $fields_array['image']
+            $fields_array['email'],
+            $fields_array['password'],
+            $fields_array['name'],
+            $fields_array['contacts'],
+            $fields_array['image'],
         ]);
 
     mysqli_stmt_execute($stmt);

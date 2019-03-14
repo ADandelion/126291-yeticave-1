@@ -14,7 +14,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $required = ['email', 'password', 'name', 'contacts'];
 
     foreach ($required as $key) {
-        if (empty($_POST[$key])) {
+        if (empty(trim($_POST[$key]))) {
             $errors[$key] = 'Заполните обязательное поле';
         }
     }
@@ -30,9 +30,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         if (mysqli_num_rows($res) > 0) {
             $errors['email'] = 'Пользователь с этим email уже зарегистрирован';
+
         }
     }
-
 // Проверяем является Аватар изображением
 
     if (!empty($_FILES['image']['name']) && !in_array(mime_content_type($_FILES['image']['tmp_name']),

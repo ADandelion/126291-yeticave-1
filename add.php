@@ -18,21 +18,21 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                  'bet_step', 'date_expire'];
 
     foreach ($required as $key) {
-        if (empty($_POST[$key])) {
+        if (empty(trim($_POST[$key]))) {
             $errors[$key] = 'Заполните обязательное поле';
         }
     }
-    if (intval(isset($_POST['starting_price'])) <= 0) {
-        $errors['starting_price'] = 'Введите начальную цену';
+    if (!empty($_POST['starting_price']) && intval($_POST['starting_price']) <= 0) {
+        $errors['starting_price'] = 'Введите число больше нуля';
     }
-    if (intval(isset($_POST['bet_step']) ) <= 0) {
-        $errors['bet_step'] = 'Введите начальную цену';
+    if (!empty($_POST['bet_step']) && intval($_POST['bet_step']) <= 0) {
+        $errors['bet_step'] = 'Введите число больше нуля';
     }
 
 
     $date = strtotime($_POST['date_expire']);
     $now = strtotime('today midnight');
-    if ($date - $now <= 86400) {
+    if ($date - $now < 86400) {
         $errors['date_expire'] = 'Дата должна быть больше текущей, хотя бы на один день';
     }
 

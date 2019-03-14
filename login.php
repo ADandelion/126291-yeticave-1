@@ -11,15 +11,14 @@ if ($is_auth === 1) {
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
-
     $required = ['email', 'password'];
     foreach ($required as $key) {
-        if (empty($_POST[$key])) {
+        if (empty(trim($_POST[$key]))) {
             $errors[$key] = 'Это поле надо заполнить';
         }
     }
 
-    if(empty($_POST['email']) && !filter_var($_POST['email'], FILTER_VALIDATE_EMAIL)) {
+    if(!empty($_POST['email']) && !filter_var($_POST['email'], FILTER_VALIDATE_EMAIL)) {
         $errors['email'] = 'Введите  email';
     }
 

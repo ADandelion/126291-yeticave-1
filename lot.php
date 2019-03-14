@@ -19,7 +19,6 @@ if (!isset($_GET['id'])) {
 
 $lot_id = intval($_GET['id']);
 $lot =  get_one_lot($link, $lot_id);
-echo '<pre>' . var_export($lot, true) . '</pre>';
 if (empty($lot)) {
 
     $layout_content = include_template('404.php', [
@@ -45,12 +44,10 @@ $show_bet_form = $is_auth === 1
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && $is_auth === 1) {
 
-    if (!isset($_POST['cost'])) {
-        $error = 'Произошла ошибка при добавлении лота' ;
-    }
-
-    if (empty(intval($_POST['cost'])) || intval($_POST['cost']) < $minBet) {
-        $error = 'Ввидете минимальную ставку';
+    if (empty($_POST['cost'])) {
+        $error = 'Введите минимальную ставку' ;
+    }elseif (empty(intval($_POST['cost'])) || intval($_POST['cost']) < $minBet) {
+        $error = 'Введите минимальную ставку';
     } else {
         save_bet($link, $_POST['cost'], $user_id, $lot_id);
         header('Location: lot.php?id=' . $lot_id);

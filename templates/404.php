@@ -24,7 +24,7 @@
             <nav class="user-menu">
 
                 <?php if ($is_auth === 1): ?>
-                    <?php if ($user_avatar == null): ?>
+                    <?php if (is_null($user_avatar)): ?>
 
                     <?php else: ?>
                         <div class="user-menu__image">
