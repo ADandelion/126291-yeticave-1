@@ -47,13 +47,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $is_auth === 1) {
 
     if (empty($_POST['cost'])) {
         $error = 'Введите минимальную ставку' ;
-    }elseif (!empty($_POST['cost']) && intval($_POST['cost']) < $minBet) {
+    }elseif (intval($_POST['cost']) < $minBet) {
         $error = 'Введите минимальную ставку';
     }
-    else {
+    if (empty($error)) {
         save_bet($link, $_POST['cost'], $user_id, $lot_id);
         header('Location: /lot.php?id=' . $lot_id);
-        die();
     }
 }
 

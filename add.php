@@ -18,14 +18,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                  'bet_step', 'date_expire'];
 
     foreach ($required as $key) {
-        if (empty(trim($_POST[$key]))) {
-            $errors[$key] = 'Заполните обязательное поле';
+        if (empty($_POST[$key])|| trim($_POST[$key]) === '') {
+            $errors[$key] = 'Это поле надо заполнить';
         }
     }
-    if (!empty($_POST['starting_price']) && intval($_POST['starting_price']) <= 0) {
+
+    if (empty($errors['starting_price']) && intval($_POST['starting_price']) <= 0) {
         $errors['starting_price'] = 'Введите число больше нуля';
     }
-    if (!empty($_POST['bet_step']) && intval($_POST['bet_step']) <= 0) {
+    if (empty($errors['bet_step']) && intval($_POST['bet_step']) <= 0) {
         $errors['bet_step'] = 'Введите число больше нуля';
     }
 
@@ -37,7 +38,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 
 
-    if (empty($_FILES['image']['name'])) {
+    if (empty($_FILES['image']) || empty($_FILES['image']['name'])) {
         $errors['image'] = 'нет картинки';
     } elseif (!in_array( mime_content_type($_FILES['image']['tmp_name']), ["image/jpg", "image/png", "image/jpeg"])) {
         $errors['image'] = 'Загрузите картинку в формате PNG, JPG или JPEG';
