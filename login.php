@@ -17,11 +17,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
     }
 
-    if(!empty($errors['email']) && !filter_var($_POST['email'], FILTER_VALIDATE_EMAIL)) {
+    if(!empty($_POST['email']) && !filter_var($_POST['email'], FILTER_VALIDATE_EMAIL)) {
         $errors['email'] = 'Введите корректный email';
     }
 
-    $email = mysqli_real_escape_string($link, $_POST['email']);
+
+    $email = mysqli_real_escape_string($link,  $_POST['email']);
     $sql = "SELECT * FROM users WHERE `email` = '$email'";
     $res = mysqli_query($link, $sql);
     $user = $res ? mysqli_fetch_array($res, MYSQLI_ASSOC) : null;
@@ -29,7 +30,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     if (empty($user)) {
         $errors['email'] = 'Такой пользователь не найден';
-    }else if (!password_verify($_POST['password'], $user['password'])) {
+    }else if (!empty($_POST['password']) && !password_verify($_POST['password'], $user['password'])) {
             $errors['password'] = 'Неверный пароль';
     }
 
